@@ -3,9 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('.section');
     let currentSectionIndex = 0;
 
-    // Detect when the user scrolls
     window.addEventListener('scroll', function() {
-        // Find the current section based on the scroll position
         const scrollPosition = window.scrollY;
         const currentSection = Array.from(sections).findIndex(section => {
             const rect = section.getBoundingClientRect();
@@ -18,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Scroll to the next or previous section based on the scroll direction
     window.addEventListener('wheel', function(event) {
         const scrollDirection = event.deltaY > 0 ? 'down' : 'up';
 
