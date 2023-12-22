@@ -35,24 +35,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /*----------------------------------------------------------------  */
 
-
-
-let startY = 0;
+let startTouchY = 0;
+let endTouchY = 0;
 let lastScrollTime = 0;
 const scrollCooldown = 500; // Set the cooldown period in milliseconds
 
 // Detect when the user starts touching the screen
-window.addEventListener('touchstart', function(event) {
-    startY = event.touches[0].clientY;
+window.addEventListener('touchstart', function (event) {
+    startTouchY = event.touches[0].clientY;
 });
 
 // Detect when the user moves their finger
-window.addEventListener('touchmove', function(event) {
-    // Calculate the vertical distance moved
-    const deltaY = event.touches[0].clientY - startY;
+window.addEventListener('touchmove', function (event) {
+    endTouchY = event.touches[0].clientY;
+});
+
+// Detect when the user releases their finger
+window.addEventListener('touchend', function (event) {
+    const deltaY = endTouchY - startTouchY;
 
     // Set a threshold to determine if it's a swipe
-    const swipeThreshold = 130;
+    const swipeThreshold = 50;
 
     if (Math.abs(deltaY) > swipeThreshold) {
         const currentTime = new Date().getTime();
@@ -71,9 +74,6 @@ window.addEventListener('touchmove', function(event) {
 
             // Update the last scroll time
             lastScrollTime = currentTime;
-
-            // Reset startY to prevent continuous scrolling
-            startY = event.touches[0].clientY;
         }
     }
 });
