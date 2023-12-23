@@ -3,9 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('.section');
     let currentSectionIndex = 0;
 
-// Detect when the user scrolls
+// scroll detection
     window.addEventListener('scroll', function() {
-// Find the current section based on the scroll position
+// current scroll pos
         const scrollPosition = window.scrollY;
         const currentSection = Array.from(sections).findIndex(section => {
             const rect = section.getBoundingClientRect();
@@ -14,11 +14,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (currentSection !== -1 && currentSection !== currentSectionIndex) {
             currentSectionIndex = currentSection;
-            console.log(`Current Section: ${currentSectionIndex + 1}`);
+            console.log(`scroll down: ${currentSectionIndex + 1}`);
+            
+        } //?????????????????????????????
+
+
+        switch (currentSectionIndex + 1) {
+          case 1:
+            setActiveButton('topButt');
+            break;
+          case 2:
+            setActiveButton('abtButt');
+            break;
+          case 3:
+            setActiveButton('botButt');
+            break;
+        }
+        
+        function setActiveButton(buttonId) {
+          const buttons = ['topButt', 'abtButt', 'botButt'];
+          
+          buttons.forEach((button) => {
+            const element = document.getElementById(button);
+            if (element) {
+              element.classList.toggle('aButt', button === buttonId);
+            }
+          });
         }
     });
 
-// Scroll to the next or previous section based on the scroll direction
+// Scroll next or previous section based on scroll direction
     window.addEventListener('wheel', function(event) {
         const scrollDirection = event.deltaY > 0 ? 'down' : 'up';
 
@@ -38,31 +63,29 @@ document.addEventListener('DOMContentLoaded', function() {
 let startTouchY = 0;
 let endTouchY = 0;
 let lastScrollTime = 0;
-const scrollCooldown = 500; // Set the cooldown period in milliseconds
+const scrollCooldown = 500; //cooldown period
+const swipeThreshold = 50; //swipe length
 
-// Detect when the user starts touching the screen
+// Detect when user starts touching the screen
 window.addEventListener('touchstart', function (event) {
     startTouchY = event.touches[0].clientY;
 });
 
-// Detect when the user moves their finger
+// Detect when user moves their finger
 window.addEventListener('touchmove', function (event) {
     endTouchY = event.touches[0].clientY;
 });
 
-// Detect when the user releases their finger
+// Detect when user releases their finger
 window.addEventListener('touchend', function (event) {
     const deltaY = endTouchY - startTouchY;
-
-    // Set a threshold to determine if it's a swipe
-    const swipeThreshold = 50;
 
     if (Math.abs(deltaY) > swipeThreshold) {
         const currentTime = new Date().getTime();
 
-        // Check if enough time has passed since the last scroll
+        // Cooldown
         if (currentTime - lastScrollTime > scrollCooldown) {
-            const scrollDirection = deltaY > 0 ? 'up' : 'down'; // Reverse the conditions
+            const scrollDirection = deltaY > 0 ? 'up' : 'down';
 
             if (scrollDirection === 'down' && currentSectionIndex < sections.length - 1) {
                 currentSectionIndex++;
@@ -72,31 +95,32 @@ window.addEventListener('touchend', function (event) {
 
             sections[currentSectionIndex].scrollIntoView({ behavior: 'smooth' });
 
-            // Update the last scroll time
+            // Update last scroll time
             lastScrollTime = currentTime;
         }
     }
+
+
+/*----------------------------------------------------------------  */
 });
 
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const sections = document.querySelectorAll('.section');
-    let currentSectionIndex = 0;
-
-});
-
-document.querySelector('.topButt').addEventListener('click', function() {
+// top section
+document.querySelector('#topButt').addEventListener('click', function() {
     const aboutSection = document.querySelector('.home');
     aboutSection.scrollIntoView({ behavior: 'smooth' });
 });
 
-document.querySelector('.abtButt').addEventListener('click', function() {
+// abt section
+document.querySelector('#abtButt').addEventListener('click', function() {
     const aboutSection = document.querySelector('.about');
     aboutSection.scrollIntoView({ behavior: 'smooth' });
 });
 
-document.querySelector('.botButt').addEventListener('click', function() {
+//contact section
+document.querySelector('#botButt').addEventListener('click', function() {
     const aboutSection = document.querySelector('.contact');
     aboutSection.scrollIntoView({ behavior: 'smooth' });
 });
+
