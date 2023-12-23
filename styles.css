@@ -5,25 +5,54 @@ body {
     overflow: hidden; /* Hide scrollbars */
   }
 
+  .home p{
+    margin-left: 5%; 
+    margin-right: 5%; 
+  }
+  
+  .about {
+    padding: 0;
+  }
+  
+  .contact {
+    padding: 0;
+  }
+  
   .section {
     height: 100vh;
+    width: 100%;
     background-color: #393E46; 
     color: #FFD369; 
     display: flex;
+    flex-direction: column; /* Stack children vertically */
     align-items: center;
     justify-content: center;
     font-size: 2em;
   }
+  .ass{
+    display: block;
+    margin-bottom: 10px; /* Add margin between .ass and .box */4
+  }
   .box{
-    width: 100px;
-    height: 100px;
-    border: solid #EEEEEE;
-    border-width: 1px;
-    color: rgb(255, 0, 0);
-    font-size: 20px;
+    
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    
+    width: 50px;
+    height: 50px;
+    border: 1px solid #EEEEEE;
+    color: red;
   }
 
-  
+  .b1,.b2,.b3,.b4 {
+    
+    width: 50px;
+    height: 50px;
+    border: 1px solid #EEEEEE;
+    color: red;
+    font-size: 1rem;
+}
   .b1{
     background-color: #EEEEEE;
   }
@@ -93,31 +122,18 @@ body {
 /* SECTION */
 
 
-.home p{
-  margin-left: 5%; 
-  margin-right: 5%; 
-}
-
-.about {
-  padding: 0;
-}
-
-.contact {
-  padding: 0;
-}
-
 
 .sidebutt {
   display: flex;
   position: fixed;
   width: 200px;
   bottom: 20px;
-  right: 40px;
+  right: 20px; /* Adjust right positioning */
   padding: 10px 20px;
   color: #fff;
   justify-content: space-around;
-  
-} 
+  align-items: flex-end;
+}
 
 .sidebutt .material-symbols-outlined {
   display: flex;
@@ -153,6 +169,11 @@ body {
 
 
 @media (max-width: 480px) {
+  .ass{
+    display: block;
+    margin-bottom: 10px; /* Add margin between .ass and .box */
+    padding: 90px;
+  }
   .navbar {
     justify-content: space-around;
     padding: 1vh 0px;
@@ -167,5 +188,30 @@ body {
 
   .navbutt {
     display: none;
+  }
+  
+  .box{
+    margin-top: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #EEEEEE;
+    color: red;
+  }
+
+  .sidebutt {
+    display: flex;
+    position: fixed;
+    width: 200px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    color: #fff;
+    justify-content: space-between;
+    align-items: flex-end;
   }
 }
