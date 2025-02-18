@@ -1,217 +1,130 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-    overflow: hidden; /* Hide scrollbars */
-  }
+@font-face {
+    font-family: 'jjwxcfont'; /* BITCH ASS JJWSOMETHING FONT */
+    src: url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6t.woff2?h=my.jjwxc.net') format('woff2'),
+}
 
-  .home p{
-    margin-left: 5%; 
-    margin-right: 5%; 
-  }
-  
-  .about {
-    padding: 0;
-  }
-  
-  .contact {
-    padding: 0;
-  }
-  
-  .section {
-    height: 100vh;
+.container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
     width: 100%;
-    background-color: #393E46; 
-    color: #FFD369; 
-    display: flex;
-    flex-direction: column; /* Stack children vertically */
-    align-items: center;
-    justify-content: center;
-    font-size: 2em;
-  }
-  .ass{
-    display: block;
-    margin-bottom: 10px; /* Add margin between .ass and .box */4
-  }
-  .box{
-    
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    
-    width: 50px;
-    height: 50px;
-    border: 1px solid #EEEEEE;
-    color: red;
-  }
-
-  .b1,.b2,.b3,.b4 {
-    
-    width: 50px;
-    height: 50px;
-    border: 1px solid #EEEEEE;
-    color: red;
-    font-size: 1rem;
-}
-  .b1{
-    background-color: #EEEEEE;
-  }
-  .b2{
-    background-color: #FFD369;
-  }
-  .b3{
-    background-color: #393E46;
-  }
-  .b4{
-    background-color: #222831;
-  }
-  
-
-  /* NAVVVVV https://colorhunt.co/palette/222831393e46ffd369eeeeee */
-  .navbar {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    padding: 1vh 0;
-    display: flex;
-    text-transform: uppercase;
-    font-weight: bold;
-    /*border-bottom: 1px solid #5C5470;
-    background-color: #222831;*/
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar div {
-    display: flex;
-    padding: 0;
-    flex-grow: 0;
-}
-
-.navbar a {
-    color: #FAF0E6;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 20px;
-}
-
-
-.navlogo {
-    margin-left: 10%;
-}
-
-.navbutt {
-    margin-right: 10%;
-}
-
-.navbutt .material-symbols-outlined {
-  padding: 0;
-  vertical-align: top;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24;
-}
-.navlogo a {
-    font-size: 30px;
-}
-
-
-
-/* SECTION */
-
-
-
-.sidebutt {
-  display: flex;
-  position: fixed;
-  width: 200px;
-  bottom: 20px;
-  right: 20px; /* Adjust right positioning */
-  padding: 10px 20px;
-  color: #fff;
-  justify-content: space-around;
-  align-items: flex-end;
-}
-
-.sidebutt .material-symbols-outlined {
-  display: flex;
-  justify-content: center;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24;
-  font-size: 30px;
-}
-
-.sidebutt button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  background-color: #EEEEEE;
-  color: #222831;
-  cursor: pointer;
-  
-}
-
-.sidebutt button:hover {
-  border: 4px solid #FFD369;
-}
-
-.sidebutt .aButt {
-  background-color: #FFD369;
-  transition: all 0.4s ease-in-out;
-}
-
-
-
-@media (max-width: 480px) {
-  .ass{
-    display: block;
-    margin-bottom: 10px; /* Add margin between .ass and .box */
-    padding: 90px;
-  }
-  .navbar {
-    justify-content: space-around;
-    padding: 1vh 0px;
-  }
-  .navlogo {
-    margin-left: 0px;
-  }
-  
-  .navbutt {
-    margin-right: 0; 
-  }
-
-  .navbutt {
-    display: none;
-  }
-  
-  .box{
-    margin-top: 10px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    flex-wrap: wrap; 
     flex-direction: column;
-    width: 50px;
-    height: 50px;
-    border: 1px solid #EEEEEE;
-    color: red;
-  }
+    width: 100%; 
+}
 
-  .sidebutt {
-    display: flex;
+.output, .input-container {
+    flex: 1;
+    min-width: 45%;
+    width: 100%; 
+    max-width: 100%; 
+    padding: 20px;
+    background-color: white;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+    font-family: 'jjwxcfont', 'Microsoft YaHei', PingFangSC, sans-serif;
+    height: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: visible;
+    border-radius: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 250px;
+    padding: 10px;
+    font-size: 1em;
+    font-family: 'jjwxcfont', 'Microsoft YaHei', PingFangSC, sans-serif;
+    border: 1px solid #ccc;
+    resize: none;
+    box-sizing: border-box;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #8d8d8d;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    width: 100%;
     position: fixed;
-    width: 200px;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    color: #fff;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+#keyInput {
+    width: 100%;
+    height: 46px;
+    font-size: 1em;
+    font-family: 'jjwxcfont', 'Microsoft YaHei', PingFangSC, sans-serif;
+    border: 1px solid #ccc;
+    resize: none;
+    box-sizing: border-box;
+}
+
+#inputContent1 {
+    height: 70vh;
+}
+
+.mode-toggle {
+    position: fixed;
+    top: 10px;
+    background-color: #ffffff;
+    right: 10px;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 1100;
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+body.dark-mode .container, 
+body.dark-mode .output, 
+body.dark-mode .input-container {
+    background-color: #333; 
+    border-color: #5e5e5e;
+}
+
+body.dark-mode footer {
+    background-color: #222;
+}
+
+body.dark-mode textarea {
+    background-color: #464646;
+    color: #ffffff;
+    border-color: #464646;
+}
+
+
+.container {
+    background-color: white; 
+}
+
+textarea {
+    background-color: white; 
+    color: #464646; 
+    border-color: #ccc;
+}
+
+body.dark-mode textarea::placeholder {
+    color: #a3a3a3; 
+}
+
+body.dark-mode .mode-toggle {
+    background-color: #333;
 }
