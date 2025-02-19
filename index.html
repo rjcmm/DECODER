@@ -12,76 +12,157 @@
 
     <button id="modeToggle" class="mode-toggle">🌙</button>
 
+
     <div class="container">
         <div class="input-container" id="inputContainer1">
-            <textarea id="inputContent1" placeholder="BITCHASS CONTENT HERE" rows="10" cols="40"></textarea>
+            <div>
+                <div class="textBox" id="inputContent1" contenteditable="true" placeholder="INPUT HERE"></div>
+            </div>
+            <div>
+                <div class="textBox" id="outputContent1" contenteditable="false" placeholder="OUTPUT HERE"></div>
+            </div>
         </div>
-
+        
         <div class="input-container" id="inputContainer2">
-            <textarea id="keyInput" placeholder="KEY HERE" rows="3" cols="20"></textarea>
+            <div class="textBox" id="keyInput"  contenteditable="true" placeholder="KEY HERE"></div>
         </div>
     </div>
 
     <footer>
-        <p>TEZZ WAS HERE</p>
+        <footer>
+            <div class="footer-links">
+                <a href="https://ko-fi.com/anothertezz" target="_blank" class="footer-item">
+                    <img src="https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/670f5a01229bf8a18f97a3c1_favion.png" alt="Ko-Fi" class="footer-logo"> Support me on Ko-Fi
+                </a>
+                    |
+                <a href="https://discord.gg/y59JxZjX2u" target="_blank" class="footer-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                        <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+                    </svg> Join my Discord
+                </a>
+                |
+            <a href="https://ko-fi.com/anothertezz" target="_blank" class="footer-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a7 7 0 1 1 2.898 5.673c-.167-.121-.216-.406-.002-.62l1.8-1.8a3.5 3.5 0 0 0 4.572-.328l1.414-1.415a.5.5 0 0 0 0-.707l-.707-.707 1.559-1.563a.5.5 0 1 0-.708-.706l-1.559 1.562-1.414-1.414 1.56-1.562a.5.5 0 1 0-.707-.706l-1.56 1.56-.707-.706a.5.5 0 0 0-.707 0L5.318 5.975a3.5 3.5 0 0 0-.328 4.571l-1.8 1.8c-.58.58-.62 1.6.121 2.137A8 8 0 1 0 0 8a.5.5 0 0 0 1 0"/>
+                </svg> Plugin
+            </a>
+            </div>
+
+            <div class="footer-links">
+            <a class="footer-item-below">Made by
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                    <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+                </svg> @anothertezz
+            </a>
+            </div>
+
+            
+        </footer>
+        
     </footer>
+    
 
     <script>
         const inputElement1 = document.getElementById('inputContent1');
-        const keyInputElement = document.getElementById('keyInput');
-        const dynamicStyles = document.getElementById('dynamic-styles');
+const outputElement1 = document.getElementById('outputContent1');
+const keyInputElement = document.getElementById('keyInput');
+const dynamicStyles = document.getElementById('dynamic-styles');
+
+// Function to apply red font to PUA characters while preserving spaces and formatting
+function applyRedFontToPUA(text) {
+    return text.split('\n').map(line => {
+        return line.split('').map(char => {
+            if (/[\uE000-\uF8FF\uD800-\uDBFF][\uDC00-\uDFFF\u200B\u200C\u200D]*/.test(char)) {
+                return `<span class="red-font">${char}</span>`; // Highlight unknown characters
+            }
+            return char === ' ' ? '&nbsp;' : char; // Preserve spaces
+        }).join('');
+    }).join('<br>'); // Preserve newlines
+}
+
+// Update output when input changes
+inputElement1.addEventListener('input', function() {
+    let inputText = inputElement1.innerHTML
+        .replace(/<div><br><\/div>/g, '<br>') // Handle extra empty divs
+        .replace(/<div>/g, '<br>') // Convert divs to line breaks
+        .replace(/<\/div>/g, '') // Remove closing divs
+        .replace(/\n/g, '<br>'); // Ensure consistent newlines
     
-        inputElement1.addEventListener('input', function() {
-            console.log(inputElement1.value); 
-        });
+    const processedText = applyRedFontToPUA(inputText);
+
+    // Remove any leading or trailing <br> to prevent extra lines
+    outputElement1.innerHTML = processedText.replace(/^(<br>)+|(<br>)+$/g, '');
+});
+
+
+// Apply font to output only when key input changes
+keyInputElement.addEventListener('input', function() {
+    const keyValue = keyInputElement.innerText.trim(); // Use innerText for contenteditable div
+
+    if (keyValue) {
+        const fontUrlBase = `//static.jjwxc.net/tmp/fonts/jjwxcfont_${keyValue}`;
+        const fontStyle = `
+            @font-face {
+                font-family: 'jjwxcfont'; 
+                src: url('${fontUrlBase}.woff2?h=my.jjwxc.net') format('woff2');
+            }
+                
+            #outputContent1 {
+                font-family: 'jjwxcfont', sans-serif !important;
+            }
+            #inputContent1 {
+                font-family: jjwxcfont, sans-serif !important; /* Keep default font for input */
+            }
+        `;
+        dynamicStyles.innerHTML = fontStyle;
+    } else {
+        dynamicStyles.innerHTML = ''; // Reset font if key input is cleared
+    }
+});
+
+
+
+
+// Same red font function for both input and output
+
     
-        keyInputElement.addEventListener('input', function() {
-            const keyValue = keyInputElement.value.trim();
+        // Dark mode toggle functionality
+        const modeToggleButton = document.getElementById('modeToggle');
+        const body = document.body;
+    
+        // Add the dark mode class to start
+        body.classList.add('dark-mode');
+    
+        // Set the initial icon to moon (dark mode) and make it yellow
+        modeToggleButton.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="yellow" class="bi bi-moon-fill" viewBox="0 0 16 16">
+            <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
+            </svg>
+        `;
+    
+        modeToggleButton.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
             
-            if (keyValue) {
-                const fontUrlBase = `//static.jjwxc.net/tmp/fonts/jjwxcfont_${keyValue}`;
-                const fontStyle = `
-                    @font-face {
-                        font-family: 'jjwxcfont'; 
-                        src: url('${fontUrlBase}.eot?h=my.jjwxc.net');
-                        src: url('${fontUrlBase}.eot?h=my.jjwxc.net#iefix') format('embedded-opentype'),
-                             url('${fontUrlBase}.woff2?h=my.jjwxc.net') format('woff2'),
-                             url('${fontUrlBase}.woff?h=my.jjwxc.net') format('woff'),
-                             url('${fontUrlBase}.ttf?h=my.jjwxc.net') format('truetype'),
-                             url('${fontUrlBase}.svg?h=my.jjwxc.net#iconfont') format('svg');
-                    }
-                    body {
-                        font-family: 'jjwxcfont' !important, 'Microsoft YaHei', PingFangSC, sans-serif !important;
-                    }
+            // Toggle between sun and moon icons
+            if (body.classList.contains('dark-mode')) {
+                modeToggleButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="yellow" class="bi bi-moon-fill" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
+                    </svg>
                 `;
-                dynamicStyles.innerHTML = fontStyle; 
             } else {
-                dynamicStyles.innerHTML = `
-                    @font-face {
-                        font-family: 'jjwxcfont'; 
-                        src: url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6h25q.eot'); 
-                        src: url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6gkte.woff2?h=my.jjwxc.net') format('woff2');
-                    }
-                    body {
-                        font-family: 'jjwxcfont' !important, 'Microsoft YaHei', PingFangSC, sans-serif !important;
-                    }
+                modeToggleButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#ff9600" class="bi bi-sun-fill" viewBox="0 0 16 16">
+                        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
+                    </svg>
                 `;
             }
         });
-
-        const modeToggleButton = document.getElementById('modeToggle');
-        const body = document.body;
-
-        body.classList.add('dark-mode');
-        modeToggleButton.innerHTML = '🌙'; 
-
-        modeToggleButton.addEventListener('click', function() {
-            body.classList.toggle('dark-mode');
-            modeToggleButton.innerHTML = body.classList.contains('dark-mode') ? '🌙' : '🌞';
-        });
+        
 
 
     </script>
+    
     
     
 
