@@ -1,10 +1,5 @@
-@font-face {
-    font-family: 'jjwxcfont'; /* BITCH ASS JJWSOMETHING FONT */
-    src: url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6t.woff2?h=my.jjwxc.net') format('woff2'),
-}
-
 body{
-    background-color: #e1dbd6;
+    background-color: #d4b58e;
 }
 
 .container {
@@ -13,78 +8,62 @@ body{
     width: 100%;
     max-width: 90vw; /* Ensures it doesn't exceed viewport width */
     gap: 20px;
-    padding-left: 10vw;
-    padding-right: 10vw;
     padding-bottom: 70px;
-    box-sizing: border-box;
     flex-direction: column;
     align-items: center; /* Centers content inside */
-    justify-content: center; /* Centers vertically if needed */
     margin: 0 auto; /* Centers the container itself */
 }
 
-.output, .input-container {
-    flex: 1;
-    width: 100%;  /* Scales dynamically */
-    max-width: 90vw; /* Prevents stretching too far */
+.input-container {
+    display: flex;
+    width: 140vh;  /* Scales dynamically */
     padding: 20px;
-    background-color: #d1d1d1;
-    border: 2px solid #ccc;
+    background-color: #e8d3c5;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-size: 1.1em;
     height: auto;
-    overflow: visible;
     border-radius: 10px;
     text-align: center; /* Ensures text/content aligns in center */
+    
+    gap: 10px;
+}
+
+#version{
+    font-size: 10px; /* Legible size for footer content */
 }
 
 
-.input-container {
-    position: relative;
+.input-container div {
+    width: 100%; /* Ensures the container stays within the parent */
 }
 
-.copy-button {
-    position: absolute;
-    bottom: 10px; /* Position the button at the bottom */
-    right: 10px; /* Position it on the right */
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-    display: none; /* Hide button by default */
+.input-container #inputContent1, #outputContent1 {
+    min-height: 60vh;
 }
 
-.copy-button:hover {
-    background-color: #45a049;
-}
-
-
-
-textarea {
-    width: 100%;
-    height: 250px;
+.textBox {
+    width: 10vh; /* Locked width */
+    height: auto;
+    background-color: white;
+    border: 2px solid black;
+    text-align: left;
+    overflow-wrap: break-word;
+    word-break: break-word;
     padding: 10px;
-    font-size: 1em;
-    font-family: 'jjwxcfont', 'Microsoft YaHei', PingFangSC, sans-serif;
-    resize: none;
+    font-family: sans-serif;
     box-sizing: border-box;
-    background-color: #e2e2e2; 
-    border-color: #ccc;
+    
+    border-radius: 5px;
+    border:1px solid #a67b5b;
+
 }
 
-
-
-#keyInput {
-    width: 100%;
-    height: 46px;
-    font-size: 1em;
-    font-family: 'jjwxcfont', 'Microsoft YaHei', PingFangSC, sans-serif;
-    resize: none;
-    box-sizing: border-box;
+.textBox:empty::before {
+    content: attr(placeholder);
+    color: gray;
+    pointer-events: none; /* Prevents interaction */
 }
+
 
 footer {
     font-family: 'Roboto', sans-serif; /* Clean sans-serif font */
@@ -137,10 +116,6 @@ footer {
 }
 
 
-#inputContent1 {
-    height: 70vh;
-}
-
 .mode-toggle {
     position: fixed;
     top: 10px;
@@ -161,14 +136,11 @@ footer {
 }
 
 
-
 body.dark-mode {
     background-color: #333;
     color: #f0f0f0;
 }
 
-body.dark-mode .container, 
-body.dark-mode .output, 
 body.dark-mode .input-container {
     background-color: #333; 
     border-color: #5e5e5e;
@@ -178,10 +150,10 @@ body.dark-mode footer {
     background-color: #222;
 }
 
-body.dark-mode textarea {
+body.dark-mode .textBox{
     background-color: #464646;
-    color: #ffffff;
-    border-color: #464646;
+    color: #cecece;
+    border-color: #333333;
 }
 body.dark-mode .footer-item,
 body.dark-mode .footer-item-below,
@@ -189,7 +161,8 @@ body.dark-mode footer{
     color: rgb(255, 255, 255);
 }
 
-body.dark-mode textarea::placeholder {
+body.dark-mode textarea::placeholder,
+body.dark-mode #outputtContent1::placeholder {
     color: #a3a3a3; 
 }
 
@@ -197,3 +170,7 @@ body.dark-mode .mode-toggle {
     background-color: #333;
 }
 
+.red-font {
+    color: red !important;
+    font-weight: bold !important;
+}

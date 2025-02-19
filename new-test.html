@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>OCR PUA Replacement</title>
+    <style>
+        @font-face {
+            font-family: 'MyCustomFont';
+            src: url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6h0wa.eot?h=my.jjwxc.net');
+            src: url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6h0wa.eot?h=my.jjwxc.net#iefix') format('embedded-opentype'),
+                url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6h0wa.woff2?h=my.jjwxc.net') format('woff2'),
+                url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6h0wa.woff?h=my.jjwxc.net') format('woff'),
+                url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6h0wa.ttf?h=my.jjwxc.net') format('truetype'),
+                url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6h0wa.svg?h=my.jjwxc.net#iconfont') format('svg');
+        }
+        .og{
+            font-size: 24px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .text-container {
+            font-family: 'MyCustomFont';
+            font-size: 24px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .ocr-output {
+            font-family: Arial, sans-serif; /* Use a standard font for the OCR result */
+            font-size: 24px;
+            line-height: 1.5;
+            color: red; /* Make it visually distinct */
+            border-top: 2px dashed gray;
+            padding-top: 10px;
+        }
+        canvas {
+            display: none; /* Hide canvas to keep the page clean */
+        }
+    </style>
+</head>
+<body>
+    <p class="og" id="text">
+        ‌ ‌ ‌ ‌ ‌ ‌
+    </p>
+    <p class="text-container" id="text">
+        
+        ‌ ‌ ‌ ‌ ‌ ‌
+    </p>
+    
+    <button onclick="processText()">Run OCR & Replace</button>
+    
+    <!-- OCR Output -->
+    <p class="ocr-output" id="ocr-text">OCR Output will appear here...</p>
+    
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.0.2/tesseract.min.js"></script>
+    <script>
+        async function processText() {
+            let textElement = document.getElementById("text");
+            let text = textElement.innerHTML;
+            let ocrTextElement = document.getElementById("ocr-text");
+
+            // Find all PUA characters (Unicode range: U+E000–U+F8FF)
+            let puaMatches = text.match(/[\uE000-\uF8FF]/g);
+            if (!puaMatches) {
+                ocrTextElement.innerHTML = "No PUA characters found.";
+                return;
+            }
+
+            let canvas = document.getElementById("canvas");
+            let ctx = canvas.getContext("2d");
+
+            let ocrText = text; // Start with the original text
+
+            for (let puaChar of puaMatches) {
+                // Capture the PUA character visually
+                let recognizedChar = await recognizeCharacter(puaChar, ctx, canvas);
+                
+                // Replace the PUA character in the text with the recognized character
+                ocrText = ocrText.replace(puaChar, recognizedChar);
+            }
+
+            // Update the OCR text output
+            ocrTextElement.innerHTML = ocrText;
+            console.log("Done!");  // Print "Done!" in the console
+        }
+
+        function recognizeCharacter(puaChar, ctx, canvas) {
+            return new Promise((resolve) => {
+                // Set canvas size and draw text
+                canvas.width = 100;
+                canvas.height = 100;
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.font = "48px 'MyCustomFont'";
+                ctx.fillStyle = "black";
+                ctx.fillText(puaChar, 20, 60);
+
+                // Convert canvas to image data for OCR
+                let imageDataURL = canvas.toDataURL();
+
+                // Run OCR on the character image
+                Tesseract.recognize(imageDataURL, 'chi_sim', {
+                    logger: m => console.log(m)  // Show OCR progress in console
+                }).then(({ data: { text } }) => {
+                    resolve(text.trim() || "?");  // Use "?" if OCR fails
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>

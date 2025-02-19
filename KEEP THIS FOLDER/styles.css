@@ -1,0 +1,130 @@
+@font-face {
+    font-family: 'jjwxcfont'; /* BITCH ASS JJWSOMETHING FONT */
+    src: url('//static.jjwxc.net/tmp/fonts/jjwxcfont_6t.woff2?h=my.jjwxc.net') format('woff2'),
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    flex-wrap: wrap; 
+    flex-direction: column;
+    width: 100%; 
+}
+
+.output, .input-container {
+    flex: 1;
+    min-width: 45%;
+    width: 100%; 
+    max-width: 100%; 
+    padding: 20px;
+    background-color: white;
+    border: 2px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+    font-family: 'jjwxcfont', 'Microsoft YaHei', PingFangSC, sans-serif;
+    height: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: visible;
+    border-radius: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 250px;
+    padding: 10px;
+    font-size: 1em;
+    font-family: 'jjwxcfont', 'Microsoft YaHei', PingFangSC, sans-serif;
+    border: 1px solid #ccc;
+    resize: none;
+    box-sizing: border-box;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #8d8d8d;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+#keyInput {
+    width: 100%;
+    height: 46px;
+    font-size: 1em;
+    font-family: 'jjwxcfont', 'Microsoft YaHei', PingFangSC, sans-serif;
+    border: 1px solid #ccc;
+    resize: none;
+    box-sizing: border-box;
+}
+
+#inputContent1 {
+    height: 70vh;
+}
+
+.mode-toggle {
+    position: fixed;
+    top: 10px;
+    background-color: #ffffff;
+    right: 10px;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 1100;
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+body.dark-mode .container, 
+body.dark-mode .output, 
+body.dark-mode .input-container {
+    background-color: #333; 
+    border-color: #5e5e5e;
+}
+
+body.dark-mode footer {
+    background-color: #222;
+}
+
+body.dark-mode textarea {
+    background-color: #464646;
+    color: #ffffff;
+    border-color: #464646;
+}
+
+
+.container {
+    background-color: white; 
+}
+
+textarea {
+    background-color: white; 
+    color: #464646; 
+    border-color: #ccc;
+}
+
+body.dark-mode textarea::placeholder {
+    color: #a3a3a3; 
+}
+
+body.dark-mode .mode-toggle {
+    background-color: #333;
+}
