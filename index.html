@@ -1,3 +1,12 @@
+<!-- 
+This project is made by Tezz (@anothertezz). 
+If you enjoy using it and find it helpful, your support is greatly appreciated!
+
+you can support by donating at https://ko-fi.com/anothertezz
+-->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JJ OCR Decrypt</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <style id="dynamic-styles"></style>
 </head>
 
@@ -22,7 +31,8 @@
             </div>
             <div>
                 <div class="textBox" id="outputContent1" contenteditable="false" placeholder="OUTPUT HERE"></div>
-                <button id="updateCanvasButton" onclick="drawPUAToCanvas()">test</button>
+                <button class="buttContent" id="updateCanvasButton" onclick="drawPUAToCanvas()">DECODE</button>
+                <button class="buttContent" id="copyButton" onclick="">COPY TO CLIPBOARD</button>
             </div>
         </div>
 
@@ -31,14 +41,11 @@
                 <div class="textBox" id="keyInput" contenteditable="true" placeholder="KEY HERE"></div>
             </div>
 
-            <div class="textBox" id="ocrOutput" contenteditable="false" placeholder="OCR Chara">
-            </div>
+            <div class="textBox" id="ocrOutput" contenteditable="false" placeholder="Chara Count"></div>
         </div>
         <div class="input-container" id="inputContainer3">
             <canvas id="puaCanvas"></canvas>
-            <div class="textBox" id="ocrRESULT" contenteditable="false" placeholder="OCR Chara">
-            </div>
-
+            <div class="textBox" id="ocrRESULT" contenteditable="false" placeholder="OCR Result"></div>
         </div>
     </div>
 
@@ -73,7 +80,7 @@
                 </a>
             </div>
             <div class="footer-links" id="version">
-                <a class="footer-item-below">V.1.2
+                <a class="footer-item-below">V.1.3
                 </a>
             </div>
 
@@ -259,7 +266,22 @@
             }
         }
 
+        document.getElementById('copyButton').addEventListener('click', function () {
+            const outputContent = document.getElementById('outputContent1').textContent;
+            const tempInput = document.createElement('textarea');
+            tempInput.value = outputContent;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
 
+            // Change the button text to "COPIED!" and revert back after 2 seconds
+            const copyButton = document.getElementById('copyButton');
+            copyButton.textContent = "COPIED!";
+            setTimeout(() => {
+                copyButton.textContent = "COPY TO CLIPBOARD";
+            }, 2000);
+        });
 
 
 

@@ -1,0 +1,215 @@
+/* General Styles */
+body {
+    background-color: #e1dbd6;
+    color: black;
+    font-family: sans-serif;
+}
+
+/* Container Styles */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 90vw;
+    padding: 5px 0 10vh;
+    gap: 20px;
+    margin: 0 auto;
+}
+
+.input-container {
+    display: flex;
+    width: 80vw;
+    padding: 20px;
+    background-color: #e1dbd6;
+    box-shadow: 6px 10px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+    border-radius: 10px;
+    text-align: center;
+    gap: 10px;
+    height: auto;
+}
+
+.input-container div {
+    width: 100%;
+}
+
+/* Specific Input Containers */
+#inputContainer1 {
+    padding-bottom: 5px;
+}
+
+#inputContainer3 {
+    flex-direction: column; 
+    display: none;
+    align-items: center;
+}
+
+#inputContainer3 #puaCanvas {
+    background-color: white;
+    width: auto;
+    height: auto;
+}
+
+/* TextBox Styling */
+.textBox {
+    width: 10vh;
+    padding: 10px;
+    background-color: white;
+    text-align: left;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    font-family: sans-serif;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.textBox:empty::before {
+    content: attr(placeholder);
+    color: gray;
+    pointer-events: none;
+}
+
+#inputContainer1 .textBox {
+    min-height: 60vh;
+  }
+  
+
+/* Buttons */
+.buttContent {
+    background-color: rgb(83, 67, 138);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    float: right;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+/* Output Styling */
+#ocrRESULT {
+    height: 4vh;
+    text-align: center;
+    letter-spacing: 0.2em;
+}
+
+/* Color Classes */
+.red-font {
+    color: red !important;
+    font-weight: bold !important;
+}
+
+.green-font {
+    color: green !important;
+    font-weight: bold !important;
+}
+
+/* Footer */
+footer {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    padding: 15px 0;
+    background-color: rgb(179, 166, 153);
+    color: black;
+    border-radius: 5px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.footer-item,
+.footer-item-below {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: black;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+.footer-item:hover {
+    text-decoration: underline;
+}
+
+.footer-logo {
+    width: 20px;
+    height: 20px;
+}
+
+/* Dark Mode */
+.mode-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 2em;
+    z-index: 1100;
+    background-color: #e1dbd6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+body.dark-mode .input-container {
+    background-color: #333;
+    border-color: #5e5e5e;
+}
+
+body.dark-mode footer,
+body.dark-mode .footer-item,
+body.dark-mode .footer-item-below {
+    background-color: #222;
+    color: white;
+}
+
+body.dark-mode .textBox {
+    background-color: #464646;
+    color: #cecece;
+    border-color: #333333;
+}
+
+body.dark-mode .mode-toggle {
+    background-color: #333;
+}
+
+body.dark-mode textarea::placeholder,
+body.dark-mode #outputContent1::placeholder {
+    color: #a3a3a3;
+}
+
+/* Responsive Styles */
+@media (max-width: 720px) {
+    .input-container {
+        flex-direction: column;
+    }
+    #outputContent1 {
+        min-height: 30vh;
+    }
+    #inputContainer2 {
+        padding-bottom: 5vh;
+    }
+    #ocrRESULT {
+        letter-spacing: 0;
+    }
+}
