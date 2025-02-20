@@ -22,13 +22,26 @@
             </div>
             <div>
                 <div class="textBox" id="outputContent1" contenteditable="false" placeholder="OUTPUT HERE"></div>
+                <button id="updateCanvasButton" onclick="drawPUAToCanvas()">test</button>
             </div>
         </div>
 
         <div class="input-container" id="inputContainer2">
-            <div class="textBox" id="keyInput" contenteditable="true" placeholder="KEY HERE"></div>
+            <div>
+                <div class="textBox" id="keyInput" contenteditable="true" placeholder="KEY HERE"></div>
+            </div>
+
+            <div class="textBox" id="ocrOutput" contenteditable="false" placeholder="OCR Chara">
+            </div>
+        </div>
+        <div class="input-container" id="inputContainer3">
+            <canvas id="puaCanvas"></canvas>
+            <div class="textBox" id="ocrRESULT" contenteditable="false" placeholder="OCR Chara">
+            </div>
+
         </div>
     </div>
+
 
     <footer>
         <footer>
@@ -68,45 +81,49 @@
         </footer>
 
     </footer>
+    <!-- v5 -->
 
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
 
     <script>
         const inputElement1 = document.getElementById('inputContent1');
         const outputElement1 = document.getElementById('outputContent1');
         const keyInputElement = document.getElementById('keyInput');
+        const ocrOutputElement = document.getElementById('ocrOutput');
+        const ocrResultElement = document.getElementById('ocrRESULT');
         const dynamicStyles = document.getElementById('dynamic-styles');
+        const puaCanvas = document.getElementById('puaCanvas');
+        const updateCanvasButton = document.getElementById('updateCanvasButton');
 
-        // Function to apply red font to PUA characters while preserving spaces and formatting
-        function applyRedFontToPUA(text) {
-            return text.split('\n').map(line => {
-                return line.split('').map(char => {
-                    if (/[\uE000-\uF8FF\uD800-\uDBFF][\uDC00-\uDFFF\u200B\u200C\u200D]*/.test(char)) {
-                        return `<span class="red-font">${char}</span>`; // Highlight unknown characters
-                    }
-                    return char === ' ' ? '&nbsp;' : char; // Preserve spaces
-                }).join('');
-            }).join('<br>'); // Preserve newlines
+        let puaToOcrMap = new Map();
+        let puaCharList = [];
+
+        function updateOutput() {
+            let inputText = inputElement1.innerHTML;
+
+            inputText = inputText.replace(/<div><br><\/div>/g, '<br>')
+                .replace(/<div>/g, '<br>')
+                .replace(/<\/div>/g, '')
+                .replace(/^<br>/, '') // Remove leading <br>
+                .replace(/\n/g, '<br>');
+
+            // Apply red font to PUA characters inside inputContent1
+            let highlightedInputText = inputText.replace(/([\uE000-\uF8FF])/g, '<span class="red-font">$1</span>');
+
+            inputElement1.innerHTML = highlightedInputText;
+            outputElement1.innerHTML = applyRedFontToPUA(inputText);
+
+            countPUAChars(inputElement1.innerText);
+
+            // Restore cursor position to prevent jumps
+            placeCaretAtEnd(inputElement1);
         }
 
-        // Update output when input changes
-        inputElement1.addEventListener('input', function () {
-            let inputText = inputElement1.innerHTML
-                .replace(/<div><br><\/div>/g, '<br>') // Handle extra empty divs
-                .replace(/<div>/g, '<br>') // Convert divs to line breaks
-                .replace(/<\/div>/g, '') // Remove closing divs
-                .replace(/\n/g, '<br>'); // Ensure consistent newlines
 
-            const processedText = applyRedFontToPUA(inputText);
+        inputElement1.addEventListener('input', updateOutput);
 
-            // Remove any leading or trailing <br> to prevent extra lines
-            outputElement1.innerHTML = processedText.replace(/^(<br>)+|(<br>)+$/g, '');
-        });
-
-
-        // Apply font to output only when key input changes
         keyInputElement.addEventListener('input', function () {
-            const keyValue = keyInputElement.innerText.trim(); // Use innerText for contenteditable div
-
+            const keyValue = keyInputElement.innerText.trim();
             if (keyValue) {
                 const fontUrlBase = `//static.jjwxc.net/tmp/fonts/jjwxcfont_${keyValue}`;
                 const fontStyle = `
@@ -114,24 +131,137 @@
                 font-family: 'jjwxcfont'; 
                 src: url('${fontUrlBase}.woff2?h=my.jjwxc.net') format('woff2');
             }
-                
-            #outputContent1 {
+            #outputContent1, #ocrOutput, #puaCanvas {
                 font-family: 'jjwxcfont', sans-serif !important;
             }
             #inputContent1 {
-                font-family: jjwxcfont, sans-serif !important; /* Keep default font for input */
+                font-family: 'jjwxcfont', sans-serif !important; 
             }
         `;
                 dynamicStyles.innerHTML = fontStyle;
             } else {
-                dynamicStyles.innerHTML = ''; // Reset font if key input is cleared
+                dynamicStyles.innerHTML = '';
             }
         });
 
+        function countPUAChars(text) {
+            puaCharList = [];
+            let puaMap = {};
+
+            for (let char of text) {
+                if (/[-]/.test(char)) {
+                    puaMap[char] = (puaMap[char] || 0) + 1;
+                    if (!puaCharList.includes(char)) {
+                        puaCharList.push(char);
+                    }
+                }
+            }
+
+            let output = "PUA Count:\n";
+            for (let char of puaCharList) {
+                output += `${char} - ${puaMap[char]},\n`;
+            }
+            ocrOutputElement.textContent = output;
+
+        }
+
+        function drawPUAToCanvas() {
+            let ctx = puaCanvas.getContext("2d");
+
+            if (puaCharList.length === 0) {
+                console.log("No PUA characters to draw.");
+                return;
+            }
+
+            document.getElementById('inputContainer3').style.display = 'flex';
+
+            let charSpacing = 30;
+            let maxWidth = window.innerWidth - 20;
+            let canvasWidth = Math.min(maxWidth, Math.max(500, puaCharList.length * charSpacing + 10));
+            let canvasHeight = 80;
+
+            puaCanvas.width = canvasWidth;
+            puaCanvas.height = canvasHeight;
+
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+            ctx.fillStyle = "black";
+            ctx.font = "20px 'jjwxcfont', Arial";
+
+            let xPos = 10;
+            puaToOcrMap.clear();
+
+            for (let i = 0; i < puaCharList.length; i++) {
+                let char = puaCharList[i];
+                ctx.fillText(char, xPos, 50);
+                xPos += charSpacing;
+            }
+
+            console.log("Canvas updated with PUA characters:", puaCharList);
+
+            Tesseract.recognize(
+                puaCanvas,
+                'chi_sim',
+                {
+                    logger: m => console.log(m)
+                }
+            ).then(({ data: { text } }) => {
+                console.log("OCR Result:", text);
+                ocrResultElement.textContent = text;
+
+                let cleanedOCRText = text.replace(/\s/g, '');
+
+                if (cleanedOCRText.length !== puaCharList.length) {
+                    console.warn("OCR result length mismatch. Adjusting...");
+                    return;
+                }
+
+                for (let i = 0; i < puaCharList.length; i++) {
+                    puaToOcrMap.set(puaCharList[i], cleanedOCRText[i]);
+                }
+
+                updateOutputWithOCR();
+            }).catch(err => {
+                console.error("OCR Error:", err);
+            });
+        }
+
+        function applyRedFontToPUA(text) {
+            return text.replace(/([-])/g, '<span class="red-font">$1</span>');
+        }
+
+        function updateOutputWithOCR() {
+            let originalHTML = inputElement1.innerHTML;
+            let modifiedHTML = originalHTML.replace(/([-])/g, (match) => {
+                return puaToOcrMap.has(match)
+                    ? `<span class='green-font'>${puaToOcrMap.get(match)}</span>`
+                    : `<span class='red-font'>${match}</span>`;
+            });
+
+            outputElement1.innerHTML = modifiedHTML;
+        }
+
+        updateCanvasButton.addEventListener('click', drawPUAToCanvas);
 
 
 
-        // Same red font function for both input and output
+
+        function placeCaretAtEnd(el) {
+            el.focus();
+            if (typeof window.getSelection !== "undefined" && document.createRange) {
+                let range = document.createRange();
+                range.selectNodeContents(el);
+                range.collapse(false);
+                let sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+
+
+
+
 
 
         // Dark mode toggle functionality
