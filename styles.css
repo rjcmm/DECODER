@@ -16,7 +16,7 @@ body{
 
 .input-container {
     display: flex;
-    width: 140vh;  /* Scales dynamically */
+    width: 80vw;  /* Scales dynamically */
     padding: 20px;
     background-color: #e8d3c5;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -38,7 +38,7 @@ body{
 }
 
 .input-container #inputContent1, #outputContent1 {
-    min-height: 60vh;
+    min-height: 70vh;
 }
 
 .textBox {
@@ -174,3 +174,19 @@ body.dark-mode .mode-toggle {
     color: red !important;
     font-weight: bold !important;
 }
+
+
+@media (max-width: 720px) {
+    .input-container{
+        flex-direction: column;
+    }
+
+    #outputContent1 {
+        min-height: 30vh;
+    }
+
+    #inputContainer2{
+        padding-bottom: 5vh;
+    }
+  }
+  
