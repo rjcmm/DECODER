@@ -1,5 +1,6 @@
 <!-- 
 This project is made by Tezz (@anothertezz). 
+It was originally meant for Clown and co. Group
 If you enjoy using it and find it helpful, your support is greatly appreciated!
 
 you can support by donating at https://ko-fi.com/anothertezz
@@ -13,7 +14,7 @@ you can support by donating at https://ko-fi.com/anothertezz
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JJ OCR Decrypt</title>
+    <title>JJDecoder</title>
     <link rel="stylesheet" href="css/styles.css">
     <style id="dynamic-styles"></style>
 </head>
@@ -21,13 +22,13 @@ you can support by donating at https://ko-fi.com/anothertezz
 <body class="dark-mode">
 
 
-    <button id="modeToggle" class="mode-toggle">🌙</button>
-
+    <button id="modeToggle" class="mode-toggle"></button>
+    <div class="notifications-container"></div>
 
     <div class="container">
         <div class="input-container" id="inputContainer1">
             <div>
-                <div class="textBox" id="inputContent1" contenteditable="true" placeholder="INPUT HERE"></div>
+                <div class="textBox" id="inputContent1" contenteditable="true" placeholder="CONTENT INPUT HERE"></div>
             </div>
             <div>
                 <div class="textBox" id="outputContent1" contenteditable="false" placeholder="OUTPUT HERE"></div>
@@ -37,13 +38,14 @@ you can support by donating at https://ko-fi.com/anothertezz
         </div>
 
         <div class="input-container" id="inputContainer2">
-            <div>
+            <div id="keycontent">
                 <div class="textBox" id="keyInput" contenteditable="true" placeholder="KEY HERE"></div>
             </div>
 
-            <div class="textBox" id="ocrOutput" contenteditable="false" placeholder="Chara Count"></div>
+            <div class="textBox" id="ocrOutput" contenteditable="false" placeholder="CHARA COUNT"></div>
         </div>
         <div class="input-container" id="inputContainer3">
+            <h4>Verify OCR</h4>
             <canvas id="puaCanvas"></canvas>
             <div class="textBox" id="ocrRESULT" contenteditable="false" placeholder="OCR Result"></div>
         </div>
@@ -51,280 +53,49 @@ you can support by donating at https://ko-fi.com/anothertezz
 
 
     <footer>
-        <footer>
-            <div class="footer-links">
-                <a href="https://ko-fi.com/anothertezz" target="_blank" class="footer-item">
-                    <img src="https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/670f5a01229bf8a18f97a3c1_favion.png"
-                        alt="Ko-Fi" class="footer-logo"> Support me on Ko-Fi
-                </a>
-                |
-                <a href="https://ko-fi.com/anothertezz" target="_blank" class="footer-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-discord" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M1 8a7 7 0 1 1 2.898 5.673c-.167-.121-.216-.406-.002-.62l1.8-1.8a3.5 3.5 0 0 0 4.572-.328l1.414-1.415a.5.5 0 0 0 0-.707l-.707-.707 1.559-1.563a.5.5 0 1 0-.708-.706l-1.559 1.562-1.414-1.414 1.56-1.562a.5.5 0 1 0-.707-.706l-1.56 1.56-.707-.706a.5.5 0 0 0-.707 0L5.318 5.975a3.5 3.5 0 0 0-.328 4.571l-1.8 1.8c-.58.58-.62 1.6.121 2.137A8 8 0 1 0 0 8a.5.5 0 0 0 1 0" />
-                    </svg> Plugin
-                </a>
-                |
-                <a href="https://discord.gg/y59JxZjX2u" target="_blank" class="footer-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-discord" viewBox="0 0 16 16">
-                        <path
-                            d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612" />
-                    </svg> Join my Discord
-                </a>
-            </div>
+        <div class="footer-links">
+            <a href="https://ko-fi.com/anothertezz" target="_blank" class="footer-item">
+                <img src="https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/670f5a01229bf8a18f97a3c1_favion.png"
+                    alt="Ko-Fi" class="footer-logo"> Support me on Ko-Fi
+            </a>
+            |
+            <a href="https://ko-fi.com/anothertezz" target="_blank" class="footer-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1 8a7 7 0 1 1 2.898 5.673c-.167-.121-.216-.406-.002-.62l1.8-1.8a3.5 3.5 0 0 0 4.572-.328l1.414-1.415a.5.5 0 0 0 0-.707l-.707-.707 1.559-1.563a.5.5 0 1 0-.708-.706l-1.559 1.562-1.414-1.414 1.56-1.562a.5.5 0 1 0-.707-.706l-1.56 1.56-.707-.706a.5.5 0 0 0-.707 0L5.318 5.975a3.5 3.5 0 0 0-.328 4.571l-1.8 1.8c-.58.58-.62 1.6.121 2.137A8 8 0 1 0 0 8a.5.5 0 0 0 1 0" />
+                </svg> Plugin
+            </a>
+            |
+            <a href="https://discord.gg/y59JxZjX2u" target="_blank" class="footer-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612" />
+                </svg> Discord
+            </a>
+        </div>
 
-            <div class="footer-links">
-                <a class="footer-item-below">Made by @anothertezz
-                </a>
-            </div>
-            <div class="footer-links" id="version">
-                <a class="footer-item-below">V.1.3
-                </a>
-            </div>
+        <div class="footer-links">
+            <a class="footer-item-below">Made by @anothertezz
+            </a>
+        </div>
+        <div class="footer-links" id="version">
+            <a class="footer-item-below" id="version">V.1.5
+            </a>
+        </div>
+        <div class="footer-links">
+            <a class="acknowledgement">This project was originally designed for Clown and co. but has grown to benefit a wider audience.
+            </a>
+        </div>
 
 
-        </footer>
 
     </footer>
-    <!-- v5 -->
+
 
     <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
-
-    <script>
-        const inputElement1 = document.getElementById('inputContent1');
-        const outputElement1 = document.getElementById('outputContent1');
-        const keyInputElement = document.getElementById('keyInput');
-        const ocrOutputElement = document.getElementById('ocrOutput');
-        const ocrResultElement = document.getElementById('ocrRESULT');
-        const dynamicStyles = document.getElementById('dynamic-styles');
-        const puaCanvas = document.getElementById('puaCanvas');
-        const updateCanvasButton = document.getElementById('updateCanvasButton');
-
-        let puaToOcrMap = new Map();
-        let puaCharList = [];
-
-        function updateOutput() {
-            let inputText = inputElement1.innerHTML;
-
-            inputText = inputText.replace(/<div><br><\/div>/g, '<br>')
-                .replace(/<div>/g, '<br>')
-                .replace(/<\/div>/g, '')
-                .replace(/^<br>/, '') // Remove leading <br>
-                .replace(/\n/g, '<br>');
-
-            // Apply red font to PUA characters inside inputContent1
-            let highlightedInputText = inputText.replace(/([\uE000-\uF8FF])/g, '<span class="red-font">$1</span>');
-
-            inputElement1.innerHTML = highlightedInputText;
-            outputElement1.innerHTML = applyRedFontToPUA(inputText);
-
-            countPUAChars(inputElement1.innerText);
-
-            // Restore cursor position to prevent jumps
-            placeCaretAtEnd(inputElement1);
-        }
-
-
-        inputElement1.addEventListener('input', updateOutput);
-
-        keyInputElement.addEventListener('input', function () {
-            const keyValue = keyInputElement.innerText.trim();
-            if (keyValue) {
-                const fontUrlBase = `//static.jjwxc.net/tmp/fonts/jjwxcfont_${keyValue}`;
-                const fontStyle = `
-            @font-face {
-                font-family: 'jjwxcfont'; 
-                src: url('${fontUrlBase}.woff2?h=my.jjwxc.net') format('woff2');
-            }
-            #outputContent1, #ocrOutput, #puaCanvas {
-                font-family: 'jjwxcfont', sans-serif !important;
-            }
-            #inputContent1 {
-                font-family: 'jjwxcfont', sans-serif !important; 
-            }
-        `;
-                dynamicStyles.innerHTML = fontStyle;
-            } else {
-                dynamicStyles.innerHTML = '';
-            }
-        });
-
-        function countPUAChars(text) {
-            puaCharList = [];
-            let puaMap = {};
-
-            for (let char of text) {
-                if (/[-]/.test(char)) {
-                    puaMap[char] = (puaMap[char] || 0) + 1;
-                    if (!puaCharList.includes(char)) {
-                        puaCharList.push(char);
-                    }
-                }
-            }
-
-            let output = "PUA Count:\n";
-            for (let char of puaCharList) {
-                output += `${char} - ${puaMap[char]},\n`;
-            }
-            ocrOutputElement.textContent = output;
-
-        }
-
-        function drawPUAToCanvas() {
-            let ctx = puaCanvas.getContext("2d");
-
-            if (puaCharList.length === 0) {
-                console.log("No PUA characters to draw.");
-                return;
-            }
-
-            document.getElementById('inputContainer3').style.display = 'flex';
-
-            let charSpacing = 30;
-            let maxWidth = window.innerWidth - 20;
-            let canvasWidth = Math.min(maxWidth, Math.max(500, puaCharList.length * charSpacing + 10));
-            let canvasHeight = 80;
-
-            puaCanvas.width = canvasWidth;
-            puaCanvas.height = canvasHeight;
-
-            ctx.fillStyle = "white";
-            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-            ctx.fillStyle = "black";
-            ctx.font = "20px 'jjwxcfont', Arial";
-
-            let xPos = 10;
-            puaToOcrMap.clear();
-
-            for (let i = 0; i < puaCharList.length; i++) {
-                let char = puaCharList[i];
-                ctx.fillText(char, xPos, 50);
-                xPos += charSpacing;
-            }
-
-            console.log("Canvas updated with PUA characters:", puaCharList);
-
-            Tesseract.recognize(
-                puaCanvas,
-                'chi_sim',
-                {
-                    logger: m => console.log(m)
-                }
-            ).then(({ data: { text } }) => {
-                console.log("OCR Result:", text);
-                ocrResultElement.textContent = text;
-
-                let cleanedOCRText = text.replace(/\s/g, '');
-
-                if (cleanedOCRText.length !== puaCharList.length) {
-                    console.warn("OCR result length mismatch. Adjusting...");
-                    return;
-                }
-
-                for (let i = 0; i < puaCharList.length; i++) {
-                    puaToOcrMap.set(puaCharList[i], cleanedOCRText[i]);
-                }
-
-                updateOutputWithOCR();
-            }).catch(err => {
-                console.error("OCR Error:", err);
-            });
-        }
-
-        function applyRedFontToPUA(text) {
-            return text.replace(/([-])/g, '<span class="red-font">$1</span>');
-        }
-
-        function updateOutputWithOCR() {
-            let originalHTML = inputElement1.innerHTML;
-            let modifiedHTML = originalHTML.replace(/([-])/g, (match) => {
-                return puaToOcrMap.has(match)
-                    ? `<span class='green-font'>${puaToOcrMap.get(match)}</span>`
-                    : `<span class='red-font'>${match}</span>`;
-            });
-
-            outputElement1.innerHTML = modifiedHTML;
-        }
-
-        updateCanvasButton.addEventListener('click', drawPUAToCanvas);
-
-
-
-
-        function placeCaretAtEnd(el) {
-            el.focus();
-            if (typeof window.getSelection !== "undefined" && document.createRange) {
-                let range = document.createRange();
-                range.selectNodeContents(el);
-                range.collapse(false);
-                let sel = window.getSelection();
-                sel.removeAllRanges();
-                sel.addRange(range);
-            }
-        }
-
-        document.getElementById('copyButton').addEventListener('click', function () {
-            const outputContent = document.getElementById('outputContent1').textContent;
-            const tempInput = document.createElement('textarea');
-            tempInput.value = outputContent;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-
-            // Change the button text to "COPIED!" and revert back after 2 seconds
-            const copyButton = document.getElementById('copyButton');
-            copyButton.textContent = "COPIED!";
-            setTimeout(() => {
-                copyButton.textContent = "COPY TO CLIPBOARD";
-            }, 2000);
-        });
-
-
-
-
-        // Dark mode toggle functionality
-        const modeToggleButton = document.getElementById('modeToggle');
-        const body = document.body;
-
-        // Add the dark mode class to start
-        body.classList.add('dark-mode');
-
-        // Set the initial icon to moon (dark mode) and make it yellow
-        modeToggleButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="yellow" class="bi bi-moon-fill" viewBox="0 0 16 16">
-            <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
-            </svg>
-        `;
-
-        modeToggleButton.addEventListener('click', function () {
-            body.classList.toggle('dark-mode');
-
-            // Toggle between sun and moon icons
-            if (body.classList.contains('dark-mode')) {
-                modeToggleButton.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="yellow" class="bi bi-moon-fill" viewBox="0 0 16 16">
-                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
-                    </svg>
-                `;
-            } else {
-                modeToggleButton.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#ff9600" class="bi bi-sun-fill" viewBox="0 0 16 16">
-                        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
-                    </svg>
-                `;
-            }
-        });
-
-
-
-    </script>
-
-
-
+    <script src="script/script.js"></script>
 
 </body>
 
