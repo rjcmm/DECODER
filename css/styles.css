@@ -170,8 +170,8 @@ footer {
     flex-direction: column;
     gap: 10px; /* Spacing between notifications */
     z-index: 1100;
-    bottom: 100px;
-    right: 20px;
+    bottom: 120px;
+    right: 6px;
     /* display: none;  Initially hidden */
 }
 

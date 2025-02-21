@@ -225,7 +225,7 @@ function showNotification(message) {
     notificationsContainer.style.display = "block"; // Show when there are notifications
 
     // Calculate duration based on message length (100ms per character)
-    let duration = Math.min(Math.max(message.length * 50, 1000), 10000);
+    let duration = Math.min(Math.max(message.length * 70, 1000), 10000);
 
     // Auto-remove after calculated time
     setTimeout(() => removeNotification(notificationBox), duration);
