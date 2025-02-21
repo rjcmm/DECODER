@@ -6,10 +6,10 @@ You can support the project by donating at: [Ko-fi](https://ko-fi.com/anothertez
 
 
 1. **Use the Plugin to Get the Key**
-   - First, use the provided `[plugin](https://tezzt.github.io/html-portfolio/)` to copy the required alphanumeric key.
+   - First, use the provided [plugin](https://tezzt.github.io/html-portfolio/) to copy the required alphanumeric key.
 
 2. **Open the Application**
-   - Open `[index.html](https://tezzt.github.io/html-portfolio/)` in a web browser.
+   - Open [index.html](https://tezzt.github.io/html-portfolio/) in a web browser.
 
 3. **Enter Your Text**
    - Paste your desired content in the first Content Input field.
