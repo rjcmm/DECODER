@@ -13,19 +13,19 @@ You can support the project by donating at: [Ko-fi](https://ko-fi.com/anothertez
 
 3. **Enter Your Text**
    - Paste your desired content in the first Content Input field.
-   - ![First Input](https://imgur.com/DiSBCUJ)
+   - ![First Input](https://imgur.com/DiSBCUJ.png)
 
 4. **Enter the Alphanumeric Key**
    - In the Key Input, paste the copied key. This key determines the font that will be used for the specific content.
-   - ![Key Input](https://imgur.com/swJNOnp)
+   - ![Key Input](https://imgur.com/swJNOnp.png)
 
 5. **View the Rendered Text**
    - The entered text will automatically be displayed on the second Content field using the dynamically loaded font.
-   - ![Output Content](https://imgur.com/bofpfez)
+   - ![Output Content](https://imgur.com/bofpfez.png)
 
 6. **decrypt**
    - Press the Decode button to perform OCR and replace any unreadable characters.
-   - ![Decode Button](https://imgur.com/8dwBdCm)
+   - ![Decode Button](https://imgur.com/8dwBdCm.png)
 
 
 ## Troubleshooting
