@@ -287,7 +287,7 @@ document.getElementById('copyButton').addEventListener('click', function () {
 });
 
 window.addEventListener('load', function () {
-    showNotification("Thank you for using this project!<br><br>Hope it proves helpful.<br><br>Support is greatly appreciated—consider donating on Ko-Fi or sharing this project with others.<br><br>If you have feedback, join the Discord server to share your thoughts!");
+    showNotification("Thank you for using this project!<br><br>I Hope you would find helpful.<br><br>Support is greatly appreciated—consider donating on Ko-Fi or sharing this project with others.<br><br>If you have feedback, join the Discord server to share your thoughts!");
 });
 
 // Ensure the container starts hidden
