@@ -1,4 +1,5 @@
-// DOM Elements
+
+// ==================== DOM ELEMENTS ====================
 const inputElement1 = document.getElementById('inputContent1');
 const outputElement1 = document.getElementById('outputContent1');
 const keyInputElement = document.getElementById('keyInput');
@@ -8,13 +9,12 @@ const dynamicStyles = document.getElementById('dynamic-styles');
 const puaCanvas = document.getElementById('puaCanvas');
 const updateCanvasButton = document.getElementById('updateCanvasButton');
 
-// Data Structures
+// ==================== DATA STRUCTURES ====================
 let puaToOcrMap = new Map(); // Maps PUA characters to their OCR results
 let puaCharList = []; // List of unique PUA characters found in the input
+let notificationDisplayed = false; // Flag to track if the notification has been displayed
 
-// Flag to track if the notification has been displayed
-let notificationDisplayed = false;
-
+// ==================== FONT APPLICATION ====================
 /**
  * Applies a custom font dynamically based on the key input.
  */
@@ -40,6 +40,7 @@ function applyFont() {
     }
 }
 
+// ==================== CONTENT DECODING ====================
 /**
  * Updates the output content based on the input content.
  * Highlights PUA characters in red and applies OCR results.
@@ -67,11 +68,6 @@ function updateOutput() {
     placeCaretAtEnd(inputElement1);
 }
 
-// Event Listeners
-inputElement1.addEventListener('input', updateOutput);
-keyInputElement.addEventListener('input', applyFont);
-updateCanvasButton.addEventListener('click', drawPUAToCanvas);
-
 /**
  * Counts the occurrences of PUA characters in the input text.
  * @param {string} text - The input text to analyze.
@@ -96,6 +92,30 @@ function countPUAChars(text) {
     ocrOutputElement.textContent = output;
 }
 
+/**
+ * Applies red font to PUA characters in the given text.
+ * @param {string} text - The text to process.
+ * @returns {string} - The processed text with PUA characters highlighted in red.
+ */
+function applyRedFontToPUA(text) {
+    return text.replace(/([-])/g, '<span class="red-font">$1</span>');
+}
+
+/**
+ * Updates the output content with OCR results.
+ */
+function updateOutputWithOCR() {
+    let originalHTML = inputElement1.innerHTML;
+    let modifiedHTML = originalHTML.replace(/([-])/g, (match) => {
+        return puaToOcrMap.has(match)
+            ? `<span class='green-font'>${puaToOcrMap.get(match)}</span>`
+            : `<span class='red-font'>${match}</span>`;
+    });
+
+    outputElement1.innerHTML = modifiedHTML;
+}
+
+// ==================== OCR FUNCTIONALITY ====================
 /**
  * Draws PUA characters onto the canvas and performs OCR.
  */
@@ -134,6 +154,9 @@ function drawPUAToCanvas() {
 
     console.log("Canvas updated with PUA characters:", puaCharList);
 
+    // **Reset the notification flag to allow new notifications**
+    notificationDisplayed = false;
+
     // Perform OCR on the canvas
     Tesseract.recognize(
         puaCanvas,
@@ -158,40 +181,19 @@ function drawPUAToCanvas() {
 
         updateOutputWithOCR();
 
-        // Ensure the notification is shown only once
+        // **Show the notification only if it hasn't been displayed**
         if (!notificationDisplayed) {
             showNotification("Decode Complete");
-            scrollToBottom();
-            notificationDisplayed = true;
+            notificationDisplayed = true; // Prevent duplicate notifications
         }
+
+        scrollToBottom();
     }).catch(err => {
         console.error("OCR Error:", err);
     });
 }
 
-/**
- * Applies red font to PUA characters in the given text.
- * @param {string} text - The text to process.
- * @returns {string} - The processed text with PUA characters highlighted in red.
- */
-function applyRedFontToPUA(text) {
-    return text.replace(/([-])/g, '<span class="red-font">$1</span>');
-}
-
-/**
- * Updates the output content with OCR results.
- */
-function updateOutputWithOCR() {
-    let originalHTML = inputElement1.innerHTML;
-    let modifiedHTML = originalHTML.replace(/([-])/g, (match) => {
-        return puaToOcrMap.has(match)
-            ? `<span class='green-font'>${puaToOcrMap.get(match)}</span>`
-            : `<span class='red-font'>${match}</span>`;
-    });
-
-    outputElement1.innerHTML = modifiedHTML;
-}
-
+// ==================== UTILITY FUNCTIONS ====================
 /**
  * Places the caret at the end of the given element.
  * @param {HTMLElement} el - The element to place the caret in.
@@ -215,21 +217,11 @@ function scrollToBottom() {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
-
-
-window.triggerUpdate = function () {
-    console.log("Update triggered by plugin");
-};
-
-
-
-
+// ==================== NOTIFICATION MANAGEMENT ====================
 /**
  * Displays a notification message.
  * @param {string} message - The message to display.
  */
-
-// Function to display notifications
 function showNotification(message) {
     const notificationsContainer = document.querySelector(".notifications-container");
     const notificationBox = document.createElement("div");
@@ -244,13 +236,16 @@ function showNotification(message) {
     notificationsContainer.style.display = "block"; // Show when there are notifications
 
     // Calculate duration based on message length (100ms per character)
-    let duration = Math.min(Math.max(message.length * 70, 1000), 10000);
+    let duration = Math.min(Math.max(message.length * 100, 1000), 10000);
 
     // Auto-remove after calculated time
     setTimeout(() => removeNotification(notificationBox), duration);
 }
 
-// Function to remove a notification
+/**
+ * Removes a notification.
+ * @param {HTMLElement} element - The notification element to remove.
+ */
 function removeNotification(element) {
     const notification = element.closest(".notifications");
     notification.style.animation = "fadeOut 0.3s forwards";
@@ -260,7 +255,9 @@ function removeNotification(element) {
     }, 300);
 }
 
-// Function to check if the container should be hidden
+/**
+ * Checks if the notifications container should be hidden.
+ */
 function checkNotificationsContainer() {
     const notificationsContainer = document.querySelector(".notifications-container");
     if (!notificationsContainer.querySelector(".notifications")) {
@@ -268,7 +265,10 @@ function checkNotificationsContainer() {
     }
 }
 
-
+// ==================== EVENT LISTENERS ====================
+inputElement1.addEventListener('input', updateOutput);
+keyInputElement.addEventListener('input', applyFont);
+updateCanvasButton.addEventListener('click', drawPUAToCanvas);
 
 document.getElementById('copyButton').addEventListener('click', function () {
     const outputElement = document.getElementById('outputContent1');
@@ -287,17 +287,15 @@ document.getElementById('copyButton').addEventListener('click', function () {
 });
 
 window.addEventListener('load', function () {
-    showNotification("Thank you for using this project!<br><br>We hope it proves helpful to you.<br><br>Your support would mean a lot—consider donating on Ko-Fi or sharing this project with others.<br><br>We’d love to hear your feedback! Join our Discord server to share your thoughts.");
+    showNotification("Thank you for using this project!<br><br>Hope it proves helpful.<br><br>Support is greatly appreciated—consider donating on Ko-Fi or sharing this project with others.<br><br>If you have feedback, join the Discord server to share your thoughts!");
 });
-
-
 
 // Ensure the container starts hidden
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".notifications-container").style.display = "none";
 });
 
-// Dark mode toggle functionality
+// ==================== DARK MODE TOGGLE ====================
 const modeToggleButton = document.getElementById('modeToggle');
 const body = document.body;
 
@@ -329,6 +327,3 @@ modeToggleButton.addEventListener('click', function () {
         `;
     }
 });
-
-
-

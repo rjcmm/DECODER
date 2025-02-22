@@ -1,35 +1,48 @@
 # How to Use 
 
-This project was created by Tezz (@anothertezz) and was originally developed for the Clown and Co. group. If you find this tool useful and enjoyable, your support would mean a lot!
+This project was created by me (Tezz, @anothertezz) and was originally developed for the Clown and Co. group. If you find this tool useful, your support would mean a lot!
 
-You can support the project by donating at: [Ko-fi](https://ko-fi.com/anothertezz)
+You can support the project by donating at: [Ko-fi](https://ko-fi.com/anothertezz) or by sharing this project to those who needs it.
 
 
-1. **Use the Plugin to Get the Key**
-   - First, use the provided [plugin](https://tezzt.github.io/html-portfolio/) to copy the required alphanumeric key.
+## 1. Install the Plugin
+- Install the [plugin](https://github.com/TezzT/JJDecodePlugin/tree/master) using load unpacked
 
-2. **Open the Application**
-   - Open [index.html](https://tezzt.github.io/html-portfolio/) in a web browser.
+## 2. Open the Tab of the Chapter You Want to Decode
+- Navigate to the specific chapter you want to decode.
 
-3. **Enter Your Text**
-   - Paste your desired content in the first Content Input field.
-   - ![First Input](https://imgur.com/DiSBCUJ.png)
+## 3. Open the Plugin
+- Click on the plugin to bring down the popout interface.
 
-4. **Enter the Alphanumeric Key**
-   - In the Key Input, paste the copied key. This key determines the font that will be used for the specific content.
-   - ![Key Input](https://imgur.com/swJNOnp.png)
+## 4. Input Content and Key
+You have two options to proceed:
 
-5. **View the Rendered Text**
-   - The entered text will automatically be displayed on the second Content field using the dynamically loaded font.
-   - ![Output Content](https://imgur.com/bofpfez.png)
+### 4.1 Manually Copy and Paste
+- **4.1a** Press Copy Content and paste it into the **Content Input** field.
+- **4.1b** Press Find Key and paste it into the **Key Input** field.
 
-6. **decrypt**
-   - Press the Decode button to perform OCR and replace any unreadable characters.
-   - ![Decode Button](https://imgur.com/8dwBdCm.png)
+### 4.2 Automatic Copy and Send
+- Click the **Copy and Send** button to automatically open the site, input the content and key.
 
+## 5. Verify Font Loading
+- Ensure the font has loaded by checking the rendered text in the second Content field.
+
+## 6. Decode the Text
+- Click the **Decode** button to perform OCR and replace any unreadable characters.
+
+## 7. OCR Verification
+- A visual verification will appear, allowing you to confirm if the characters are correct.
+
+## 8. Copy the Output
+- Once verified, you can:
+  - Click the **Copy to Clipboard** button, or
+  - Manually select and copy the text.
+
+## 9. Done!
+- Your text is now decoded.
 
 ## Troubleshooting
 
-- **Font not changing?** Ensure that the entered key is correct and corresponds to an available font.
+- **Unreadable characters not changing?** Ensure that the entered key is correct and corresponds to an available font.
 
-- **Have Questions?** Send your questions and suggestions at [Discord](https://discord.gg/y59JxZjX2u).
+- **Have Suggestions? Questions? Issues?** Send them at [Discord](https://discord.gg/y59JxZjX2u).
