@@ -1,6 +1,6 @@
 # How to Use 
 
-This project was created by me (Tezz, @anothertezz) and was originally developed for the Clown and Co. group. If you find this tool useful, your support would mean a lot!
+This project was created by me (Tezz, @anothertezz) and was originally developed for the [Clown and Co.](https://www.novelupdates.com/group/clown-co/) group. If you find this tool useful, your support would mean a lot!
 
 You can support the project by donating at: [Ko-fi](https://ko-fi.com/anothertezz) or by sharing this project to those who needs it.
 
@@ -41,8 +41,6 @@ You have two options to proceed:
 ## 9. Done!
 - Your text is now decoded.
 
-## Troubleshooting
-
-- **Unreadable characters not changing?** Ensure that the entered key is correct and corresponds to an available font.
+## Feedback
 
 - **Have Suggestions? Questions? Issues?** Send them at [Discord](https://discord.gg/y59JxZjX2u).
