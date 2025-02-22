@@ -219,7 +219,6 @@ function scrollToBottom() {
 
 window.triggerUpdate = function () {
     console.log("Update triggered by plugin");
-    updateOutput();
 };
 
 
