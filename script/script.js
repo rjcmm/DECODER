@@ -1,4 +1,4 @@
-
+// DOM Elements
 const inputElement1 = document.getElementById('inputContent1');
 const outputElement1 = document.getElementById('outputContent1');
 const keyInputElement = document.getElementById('keyInput');
@@ -8,55 +8,74 @@ const dynamicStyles = document.getElementById('dynamic-styles');
 const puaCanvas = document.getElementById('puaCanvas');
 const updateCanvasButton = document.getElementById('updateCanvasButton');
 
-let puaToOcrMap = new Map();
-let puaCharList = [];
+// Data Structures
+let puaToOcrMap = new Map(); // Maps PUA characters to their OCR results
+let puaCharList = []; // List of unique PUA characters found in the input
 
+// Flag to track if the notification has been displayed
+let notificationDisplayed = false;
+
+/**
+ * Applies a custom font dynamically based on the key input.
+ */
+function applyFont() {
+    const keyValue = keyInputElement.innerText.trim();
+    if (keyValue) {
+        const fontUrlBase = `//static.jjwxc.net/tmp/fonts/jjwxcfont_${keyValue}`;
+        const fontStyle = `
+            @font-face {
+                font-family: 'jjwxcfont'; 
+                src: url('${fontUrlBase}.woff2?h=my.jjwxc.net') format('woff2');
+            }
+            #outputContent1, #ocrOutput, #puaCanvas {
+                font-family: 'jjwxcfont', sans-serif !important;
+            }
+            #inputContent1 {
+                font-family: 'jjwxcfont', sans-serif !important; 
+            }
+        `;
+        dynamicStyles.innerHTML = fontStyle;
+    } else {
+        dynamicStyles.innerHTML = ''; // Clear the font if keyValue is empty
+    }
+}
+
+/**
+ * Updates the output content based on the input content.
+ * Highlights PUA characters in red and applies OCR results.
+ */
 function updateOutput() {
     let inputText = inputElement1.innerHTML;
 
+    // Normalize the input text by replacing divs with line breaks
     inputText = inputText.replace(/<div><br><\/div>/g, '<br>')
         .replace(/<div>/g, '<br>')
         .replace(/<\/div>/g, '')
         .replace(/^<br>/, '') // Remove leading <br>
         .replace(/\n/g, '<br>');
 
-    // Apply red font to PUA characters inside inputContent1
+    // Highlight PUA characters in red
     let highlightedInputText = inputText.replace(/([\uE000-\uF8FF])/g, '<span class="red-font">$1</span>');
 
     inputElement1.innerHTML = highlightedInputText;
     outputElement1.innerHTML = applyRedFontToPUA(inputText);
 
+    // Count and display PUA characters
     countPUAChars(inputElement1.innerText);
 
     // Restore cursor position to prevent jumps
     placeCaretAtEnd(inputElement1);
 }
 
-
+// Event Listeners
 inputElement1.addEventListener('input', updateOutput);
+keyInputElement.addEventListener('input', applyFont);
+updateCanvasButton.addEventListener('click', drawPUAToCanvas);
 
-keyInputElement.addEventListener('input', function () {
-    const keyValue = keyInputElement.innerText.trim();
-    if (keyValue) {
-        const fontUrlBase = `//static.jjwxc.net/tmp/fonts/jjwxcfont_${keyValue}`;
-        const fontStyle = `
-    @font-face {
-        font-family: 'jjwxcfont'; 
-        src: url('${fontUrlBase}.woff2?h=my.jjwxc.net') format('woff2');
-    }
-    #outputContent1, #ocrOutput, #puaCanvas {
-        font-family: 'jjwxcfont', sans-serif !important;
-    }
-    #inputContent1 {
-        font-family: 'jjwxcfont', sans-serif !important; 
-    }
-`;
-        dynamicStyles.innerHTML = fontStyle;
-    } else {
-        dynamicStyles.innerHTML = '';
-    }
-});
-
+/**
+ * Counts the occurrences of PUA characters in the input text.
+ * @param {string} text - The input text to analyze.
+ */
 function countPUAChars(text) {
     puaCharList = [];
     let puaMap = {};
@@ -75,11 +94,11 @@ function countPUAChars(text) {
         output += `${char} - ${puaMap[char]},\n`;
     }
     ocrOutputElement.textContent = output;
-
 }
 
-let notificationDisplayed = false; // Flag to track notification status
-
+/**
+ * Draws PUA characters onto the canvas and performs OCR.
+ */
 function drawPUAToCanvas() {
     let ctx = puaCanvas.getContext("2d");
 
@@ -115,6 +134,7 @@ function drawPUAToCanvas() {
 
     console.log("Canvas updated with PUA characters:", puaCharList);
 
+    // Perform OCR on the canvas
     Tesseract.recognize(
         puaCanvas,
         'chi_sim',
@@ -149,10 +169,18 @@ function drawPUAToCanvas() {
     });
 }
 
+/**
+ * Applies red font to PUA characters in the given text.
+ * @param {string} text - The text to process.
+ * @returns {string} - The processed text with PUA characters highlighted in red.
+ */
 function applyRedFontToPUA(text) {
     return text.replace(/([-])/g, '<span class="red-font">$1</span>');
 }
 
+/**
+ * Updates the output content with OCR results.
+ */
 function updateOutputWithOCR() {
     let originalHTML = inputElement1.innerHTML;
     let modifiedHTML = originalHTML.replace(/([-])/g, (match) => {
@@ -162,11 +190,12 @@ function updateOutputWithOCR() {
     });
 
     outputElement1.innerHTML = modifiedHTML;
-    
 }
 
-updateCanvasButton.addEventListener('click', drawPUAToCanvas);
-
+/**
+ * Places the caret at the end of the given element.
+ * @param {HTMLElement} el - The element to place the caret in.
+ */
 function placeCaretAtEnd(el) {
     el.focus();
     if (typeof window.getSelection !== "undefined" && document.createRange) {
@@ -179,42 +208,33 @@ function placeCaretAtEnd(el) {
     }
 }
 
-
+/**
+ * Scrolls the page to the bottom smoothly.
+ */
 function scrollToBottom() {
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
 
 
-
-document.getElementById('copyButton').addEventListener('click', function () {
-    const outputElement = document.getElementById('outputContent1');
-    let formattedText = outputElement.innerText; // Preserves whitespace & only visible text
-
-    const tempInput = document.createElement('textarea');
-    tempInput.style.whiteSpace = "pre-wrap"; // Ensures whitespace is preserved
-    tempInput.value = formattedText;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand('copy');
-    document.body.removeChild(tempInput);
-
-    // Show notification instead of changing button text
-    showNotification("Copied to clipboard!");
-});
-
-window.addEventListener('load', function () {
-showNotification("Thank you for using this project!<br><br>We hope it proves helpful to you.<br><br>Your support would mean a lot—consider donating on Ko-Fi or sharing this project with others.<br><br>We’d love to hear your feedback! Join our Discord server to share your thoughts.");
-}); 
+window.triggerUpdate = function () {
+    console.log("Update triggered by plugin");
+    updateOutput();
+};
 
 
 
+
+/**
+ * Displays a notification message.
+ * @param {string} message - The message to display.
+ */
 
 // Function to display notifications
 function showNotification(message) {
     const notificationsContainer = document.querySelector(".notifications-container");
     const notificationBox = document.createElement("div");
-    
+
     notificationBox.classList.add("notifications");
     notificationBox.innerHTML = `
         <button class="closeButt" onclick="removeNotification(this)">x</button>
@@ -250,14 +270,33 @@ function checkNotificationsContainer() {
 }
 
 
-// Ensure the container starts hidden
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector(".notifications-container").style.display = "none";
+
+document.getElementById('copyButton').addEventListener('click', function () {
+    const outputElement = document.getElementById('outputContent1');
+    let formattedText = outputElement.innerText; // Preserves whitespace & only visible text
+
+    const tempInput = document.createElement('textarea');
+    tempInput.style.whiteSpace = "pre-wrap"; // Ensures whitespace is preserved
+    tempInput.value = formattedText;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    // Show notification instead of changing button text
+    showNotification("Copied to clipboard!");
+});
+
+window.addEventListener('load', function () {
+    showNotification("Thank you for using this project!<br><br>We hope it proves helpful to you.<br><br>Your support would mean a lot—consider donating on Ko-Fi or sharing this project with others.<br><br>We’d love to hear your feedback! Join our Discord server to share your thoughts.");
 });
 
 
 
-
+// Ensure the container starts hidden
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".notifications-container").style.display = "none";
+});
 
 // Dark mode toggle functionality
 const modeToggleButton = document.getElementById('modeToggle');
