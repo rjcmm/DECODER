@@ -85,12 +85,19 @@ function countPUAChars(text) {
         }
     }
 
-    let output = "Character Count:\n";
+ 
+    let output = "<div class='grid-container'>";
     for (let char of puaCharList) {
-        output += `${char} - ${puaMap[char]},\n`;
+        let ocrChar = puaToOcrMap.get(char) || "";
+        output += `<div class="grid-item">
+                        <span>${puaMap[char]} - ${char}</span>
+                        <div class="editable" contenteditable="plaintext-only" oninput="updateManualOverride('${char}', this.textContent)">${ocrChar}</div>
+                    </div>`;
     }
-    ocrOutputElement.textContent = output;
+    output += "</div>";
+    ocrOutputElement.innerHTML = output;
 }
+
 
 /**
  * Applies red font to PUA characters in the given text.
@@ -113,6 +120,19 @@ function updateOutputWithOCR() {
     });
 
     outputElement1.innerHTML = modifiedHTML;
+    countPUAChars(inputElement1.innerText); 
+}
+
+/**
+ * Allows manual override of OCR results.
+ * @param {string} char - The original PUA character.
+ * @param {string} newValue - The manually entered replacement.
+ */
+function updateManualOverride(char, newValue) {
+    if (newValue.trim()) {
+        puaToOcrMap.set(char, newValue);
+        updateOutputWithOCR();
+    }
 }
 
 // ==================== OCR FUNCTIONALITY ====================
@@ -154,9 +174,6 @@ function drawPUAToCanvas() {
 
     console.log("Canvas updated with PUA characters:", puaCharList);
 
-    // **Reset the notification flag to allow new notifications**
-    notificationDisplayed = false;
-
     // Perform OCR on the canvas
     Tesseract.recognize(
         puaCanvas,
@@ -171,7 +188,7 @@ function drawPUAToCanvas() {
         let cleanedOCRText = text.replace(/\s/g, '');
 
         if (cleanedOCRText.length !== puaCharList.length) {
-            showNotification("OCR Mismatch - will add solution for this soon");
+            notificationManager.showNotification("OCR Mismatch - Please manually complete the override section", { unique: true });
             return;
         }
 
@@ -181,15 +198,12 @@ function drawPUAToCanvas() {
 
         updateOutputWithOCR();
 
-        // **Show the notification only if it hasn't been displayed**
-        if (!notificationDisplayed) {
-            showNotification("Decode Complete");
-            notificationDisplayed = true; // Prevent duplicate notifications
-        }
+        notificationManager.showNotification("Decode Complete", { unique: true });
 
         scrollToBottom();
     }).catch(err => {
         console.error("OCR Error:", err);
+        notificationManager.showNotification("OCR Error: " + err.message, { unique: true });
     });
 }
 
@@ -218,58 +232,100 @@ function scrollToBottom() {
 }
 
 // ==================== NOTIFICATION MANAGEMENT ====================
-/**
- * Displays a notification message.
- * @param {string} message - The message to display.
- */
-function showNotification(message) {
+const notificationManager = (() => {
     const notificationsContainer = document.querySelector(".notifications-container");
-    const notificationBox = document.createElement("div");
+    const activeNotifications = new Set(); // Track active notifications
 
-    notificationBox.classList.add("notifications");
-    notificationBox.innerHTML = `
-        <button class="closeButt" onclick="removeNotification(this)">x</button>
-        <div class="notifContent">${message}</div>
-    `;
+    /**
+     * Sample notification
+     * // Show a unique notification
+     * notificationManager.showNotification("This is a unique message", { unique: true });
+     * 
+     * // Show a non-unique notification
+     * notificationManager.showNotification("This is a regular message");
+     * 
+     * // Show a notification with a custom duration
+     * notificationManager.showNotification("This will disappear in 5 seconds", { duration: 5000 });
+     * 
+     * 
+     * Displays a notification message.
+     * @param {string} message - The message to display.
+     * @param {object} options - Options for the notification.
+     * @param {boolean} options.unique - If true, prevents duplicate notifications.
+     * @param {number} options.duration - Custom duration for the notification (in ms).
+     */
+    function showNotification(message, options = {}) {
+        const { unique = false, duration = null } = options;
 
-    notificationsContainer.appendChild(notificationBox);
-    notificationsContainer.style.display = "block"; // Show when there are notifications
+        // If unique is true and the message is already displayed, return
+        if (unique && activeNotifications.has(message)) {
+            return;
+        }
 
-    // Calculate duration based on message length (100ms per character)
-    let duration = Math.min(Math.max(message.length * 100, 1000), 10000);
+        const notificationBox = document.createElement("div");
+        notificationBox.classList.add("notifications");
+        notificationBox.innerHTML = `
+            <button class="closeButt" onclick="removeNotification(this)">x</button>
+            <div class="notifContent">${message}</div>
+        `;
 
-    // Auto-remove after calculated time
-    setTimeout(() => removeNotification(notificationBox), duration);
-}
+        notificationsContainer.appendChild(notificationBox);
+        notificationsContainer.style.display = "block"; // Show the container
 
-/**
- * Removes a notification.
- * @param {HTMLElement} element - The notification element to remove.
- */
-function removeNotification(element) {
-    const notification = element.closest(".notifications");
-    notification.style.animation = "fadeOut 0.3s forwards";
-    setTimeout(() => {
-        notification.remove();
-        checkNotificationsContainer(); // Check if we need to hide the container
-    }, 300);
-}
+        // Add the message to the active notifications set
+        if (unique) {
+            activeNotifications.add(message);
+        }
 
-/**
- * Checks if the notifications container should be hidden.
- */
-function checkNotificationsContainer() {
-    const notificationsContainer = document.querySelector(".notifications-container");
-    if (!notificationsContainer.querySelector(".notifications")) {
-        notificationsContainer.style.display = "none"; // Hide when empty
+        // Calculate duration based on message length (100ms per character)
+        const autoDuration = duration !== null ? duration : Math.min(Math.max(message.length * 100, 1000), 10000);
+
+        // Auto-remove after calculated time
+        setTimeout(() => removeNotification(notificationBox), autoDuration);
     }
-}
+
+    /**
+     * Removes a notification.
+     * @param {HTMLElement} element - The notification element to remove.
+     */
+    function removeNotification(element) {
+        const notification = element.closest(".notifications");
+        if (!notification) return;
+
+        notification.style.animation = "fadeOut 0.3s forwards";
+        setTimeout(() => {
+            const message = notification.querySelector(".notifContent").textContent;
+            activeNotifications.delete(message); // Remove from active notifications
+            notification.remove();
+            checkNotificationsContainer(); // Check if we need to hide the container
+        }, 300);
+    }
+
+    /**
+     * Checks if the notifications container should be hidden.
+     */
+    function checkNotificationsContainer() {
+        if (!notificationsContainer.querySelector(".notifications")) {
+            notificationsContainer.style.display = "none"; // Hide when empty
+        }
+    }
+
+    return {
+        showNotification,
+        removeNotification,
+        checkNotificationsContainer,
+    };
+})();
+
+// Expose removeNotification to the global scope for use in HTML onclick
+window.removeNotification = notificationManager.removeNotification;
 
 // ==================== EVENT LISTENERS ====================
 inputElement1.addEventListener('input', updateOutput);
 keyInputElement.addEventListener('input', applyFont);
 updateCanvasButton.addEventListener('click', drawPUAToCanvas);
 
+// Copy Button
 document.getElementById('copyButton').addEventListener('click', function () {
     const outputElement = document.getElementById('outputContent1');
     let formattedText = outputElement.innerText; // Preserves whitespace & only visible text
@@ -282,12 +338,14 @@ document.getElementById('copyButton').addEventListener('click', function () {
     document.execCommand('copy');
     document.body.removeChild(tempInput);
 
-    // Show notification instead of changing button text
-    showNotification("Copied to clipboard!");
+    // Copy Button Alert
+    notificationManager.showNotification("Copied to clipboard!");
 });
 
+// Notif when web loads
 window.addEventListener('load', function () {
-    showNotification("Thank you for using this project!<br><br>I hope you would find helpful.<br><br>Support is greatly appreciated—consider donating on Ko-Fi or sharing this project with others.<br><br>If you have feedback, join the Discord server to share your thoughts!");
+    notificationManager.showNotification("Thank you for using this project!<br><br>I hope you find this project helpful. Your support means a lot! If you'd like to support, please consider donating on Ko-Fi or sharing this project with others.<br><br>If you have feedback, join the Discord server to share your thoughts!");
+    notificationManager.showNotification("If you encounter any issues, please report them to me. Your feedback is invaluable and helps me improve this project.");
 });
 
 // Ensure the container starts hidden

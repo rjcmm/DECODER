@@ -41,7 +41,8 @@ you can support by donating at https://ko-fi.com/anothertezz
     <div class="container">
         <div class="input-container" id="inputContainer1">
             <div>
-                <div class="textBox" id="inputContent1" contenteditable="true" placeholder="CONTENT INPUT HERE"></div>
+                <div class="textBox" id="inputContent1" contenteditable="plaintext-only"
+                    placeholder="CONTENT INPUT HERE"></div>
             </div>
             <div>
                 <div class="textBox" id="outputContent1" contenteditable="false" placeholder="OUTPUT HERE"></div>
@@ -52,10 +53,15 @@ you can support by donating at https://ko-fi.com/anothertezz
 
         <div class="input-container" id="inputContainer2">
             <div id="keycontent">
-                <div class="textBox" id="keyInput" contenteditable="true" placeholder="KEY HERE"></div>
+                <div class="textBox" id="keyInput" contenteditable="plaintext-only" placeholder="KEY HERE"></div>
             </div>
 
-            <div class="textBox" id="ocrOutput" contenteditable="false" placeholder="CHARA COUNT"></div>
+            <h4>Override Character:</h4>
+            <div class="textBox" id="ocrOutput" contenteditable="false" placeholder="CHARA COUNT">
+                <div class="grid-container">
+                </div>
+            </div>
+
         </div>
         <div class="input-container" id="inputContainer3">
             <h4>Verify OCR</h4>
@@ -94,7 +100,7 @@ you can support by donating at https://ko-fi.com/anothertezz
             </a>
         </div>
         <div class="footer-links" id="version">
-            <a class="footer-item-below" id="version">V1.7
+            <a class="footer-item-below" id="version">V1.8
             </a>
         </div>
         <div class="footer-acknowledgement">

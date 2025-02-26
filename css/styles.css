@@ -55,7 +55,7 @@ body {
 }
 
 #inputContainer3 {
-    flex-direction: column; 
+    flex-direction: column;
     display: none;
     align-items: center;
     width: auto;
@@ -88,8 +88,7 @@ body {
 
 #inputContainer1 .textBox {
     min-height: 60vh;
-  }
-  
+}
 
 /* Buttons */
 .buttContent {
@@ -107,26 +106,25 @@ body {
     border: 1px solid rgb(83, 67, 138);
 }
 
-#updateCanvasButton{
+#updateCanvasButton {
     background-color: rgb(83, 67, 138);
 }
-#updateCanvasButton:hover{
+
+#updateCanvasButton:hover {
     background-color: rgb(94, 74, 161);
 }
 
-
-.buttContent:hover{
+.buttContent:hover {
     background-color: rgb(83, 67, 138);
 }
 
 .buttContent:active,
-#updateCanvasButton:active{
+#updateCanvasButton:active {
     color: rgb(216, 210, 235);
     background-color: rgb(67, 50, 128);
 }
 
-
-#keycontent{
+#keycontent {
     max-width: 120px;
 }
 
@@ -139,6 +137,34 @@ body {
 
 h4 {
     margin: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+}
+
+.grid-item {
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    border-radius: 5px;
+    background-color: #222;
+    justify-content: center;
+}
+
+.editable {
+    text-align: center;
+    flex-grow: 1;
+    padding: 5px;
+    color: rgb(255, 255, 255);
+    background: #5e5e5e;
+    max-width: 25px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    border-radius: 5px;
 }
 
 /* Color Classes */
@@ -210,16 +236,15 @@ footer {
     position: fixed;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Spacing between notifications */
+    gap: 10px;
     z-index: 1100;
     bottom: 120px;
     right: 6px;
-    /* display: none;  Initially hidden */
 }
 
 /* Individual notifications */
 .notifications {
-    position: relative; /* So we can position .closeButt inside */
+    position: relative;
     min-width: 200px;
     min-height: 10px;
     width: auto;
@@ -265,6 +290,7 @@ footer {
         opacity: 0;
         transform: translateX(20px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -277,6 +303,7 @@ footer {
         opacity: 1;
         transform: translateX(0);
     }
+
     to {
         opacity: 0;
         transform: translateX(20px);
@@ -334,21 +361,42 @@ body.dark-mode ::placeholder {
 }
 
 
+@media (max-width: 1200px) {
+
+    .grid-container {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
 /* Responsive Styles */
 @media (max-width: 720px) {
     .input-container {
         flex-direction: column;
     }
+
     #outputContent1 {
         min-height: 30vh;
     }
+
     #inputContainer2 {
         margin-bottom: 3vh;
     }
+
     #ocrRESULT {
         letter-spacing: 0;
     }
-    .image-container{
+
+    .image-container {
         visibility: hidden;
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
