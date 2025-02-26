@@ -171,7 +171,7 @@ function drawPUAToCanvas() {
         let cleanedOCRText = text.replace(/\s/g, '');
 
         if (cleanedOCRText.length !== puaCharList.length) {
-            console.warn("OCR result length mismatch. Adjusting...");
+            showNotification("OCR Mismatch - will add solution for this soon");
             return;
         }
 
