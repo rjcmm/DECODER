@@ -188,7 +188,7 @@ function drawPUAToCanvas() {
         let cleanedOCRText = text.replace(/\s/g, '');
 
         if (cleanedOCRText.length !== puaCharList.length) {
-            notificationManager.showNotification("OCR Mismatch - Please manually complete the override section", { unique: true });
+            notificationManager.showNotification("OCR Mismatch - Please manually complete the override section, you can scroll to the very bottom to copy and paste the available ocr to match their respective characters", { unique: true });
             return;
         }
 
