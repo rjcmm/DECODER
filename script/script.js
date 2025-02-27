@@ -138,9 +138,6 @@ function updateManualOverride(char, newValue) {
 /**
  * Draws PUA characters onto the canvas and performs OCR.
  */
-// 
-let ocrWorker = null;
-
 function drawPUAToCanvas() {
     let ctx = puaCanvas.getContext("2d");
 
@@ -177,13 +174,8 @@ function drawPUAToCanvas() {
 
     console.log("Canvas updated with PUA characters:", puaCharList);
 
-    // Cancel any existing OCR job before starting a new one
-    if (ocrWorker) {
-        ocrWorker.terminate();
-    }
-
     // Perform OCR on the canvas
-    ocrWorker = Tesseract.recognize(
+    Tesseract.recognize(
         puaCanvas,
         'chi_sim',
         {
@@ -216,7 +208,6 @@ function drawPUAToCanvas() {
         scrollToBottom();
     });
 }
-
 
 // ==================== UTILITY FUNCTIONS ====================
 /**
