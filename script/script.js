@@ -138,6 +138,9 @@ function updateManualOverride(char, newValue) {
 /**
  * Draws PUA characters onto the canvas and performs OCR.
  */
+// 
+let ocrWorker = null;
+
 function drawPUAToCanvas() {
     let ctx = puaCanvas.getContext("2d");
 
@@ -148,7 +151,7 @@ function drawPUAToCanvas() {
 
     document.getElementById('inputContainer3').style.display = 'flex';
 
-    let charSpacing = 40;
+    let charSpacing = 50;
     let maxWidth = window.innerWidth - 20;
     let canvasWidth = Math.min(maxWidth, Math.max(500, puaCharList.length * charSpacing + 10));
     let canvasHeight = 80;
@@ -160,7 +163,8 @@ function drawPUAToCanvas() {
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     ctx.fillStyle = "black";
-    ctx.font = "20px 'jjwxcfont', Arial";
+    ctx.font = "30px 'jjwxcfont', Arial";
+    ctx.textBaseline = 'middle'; 
 
     let xPos = 10;
     puaToOcrMap.clear();
@@ -173,8 +177,13 @@ function drawPUAToCanvas() {
 
     console.log("Canvas updated with PUA characters:", puaCharList);
 
+    // Cancel any existing OCR job before starting a new one
+    if (ocrWorker) {
+        ocrWorker.terminate();
+    }
+
     // Perform OCR on the canvas
-    Tesseract.recognize(
+    ocrWorker = Tesseract.recognize(
         puaCanvas,
         'chi_sim',
         {
@@ -185,18 +194,6 @@ function drawPUAToCanvas() {
         ocrResultElement.textContent = text;
 
         let cleanedOCRText = text.replace(/\s/g, '');
-
-        // Draw bounding box
-        let xPos = 10;
-        for (let i = 0; i < puaCharList.length; i++) {
-            let char = puaCharList[i];
-            let textWidth = ctx.measureText(char).width;
-            let padding = 5;
-            ctx.strokeStyle = "red";
-            ctx.lineWidth = 1;
-            ctx.strokeRect(xPos - padding, 30 - padding, textWidth + 2 * padding, 25 + 2 * padding);
-            xPos += charSpacing;
-        }
 
         if (cleanedOCRText.length !== puaCharList.length) {
             notificationManager.showNotification("OCR Mismatch - Please manually complete the override section, you can scroll to the very bottom to copy and paste the available ocr to match their respective characters", { unique: true });
@@ -219,6 +216,7 @@ function drawPUAToCanvas() {
         scrollToBottom();
     });
 }
+
 
 // ==================== UTILITY FUNCTIONS ====================
 /**
