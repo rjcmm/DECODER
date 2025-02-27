@@ -149,7 +149,7 @@ function drawPUAToCanvas() {
 
     document.getElementById('inputContainer3').style.display = 'flex';
 
-    let charSpacing = 30;
+    let charSpacing = 40;
     let maxWidth = window.innerWidth - 20;
     let canvasWidth = Math.min(maxWidth, Math.max(500, puaCharList.length * charSpacing + 10));
     let canvasHeight = 80;
