@@ -85,7 +85,6 @@ function countPUAChars(text) {
         }
     }
 
- 
     let output = "<div class='grid-container'>";
     for (let char of puaCharList) {
         let ocrChar = puaToOcrMap.get(char) || "";
@@ -187,8 +186,21 @@ function drawPUAToCanvas() {
 
         let cleanedOCRText = text.replace(/\s/g, '');
 
+        // Draw bounding box
+        let xPos = 10;
+        for (let i = 0; i < puaCharList.length; i++) {
+            let char = puaCharList[i];
+            let textWidth = ctx.measureText(char).width;
+            let padding = 5;
+            ctx.strokeStyle = "red";
+            ctx.lineWidth = 1;
+            ctx.strokeRect(xPos - padding, 30 - padding, textWidth + 2 * padding, 25 + 2 * padding);
+            xPos += charSpacing;
+        }
+
         if (cleanedOCRText.length !== puaCharList.length) {
             notificationManager.showNotification("OCR Mismatch - Please manually complete the override section, you can scroll to the very bottom to copy and paste the available ocr to match their respective characters", { unique: true });
+            scrollToBottom();
             return;
         }
 
@@ -204,6 +216,7 @@ function drawPUAToCanvas() {
     }).catch(err => {
         console.error("OCR Error:", err);
         notificationManager.showNotification("OCR Error: " + err.message, { unique: true });
+        scrollToBottom();
     });
 }
 
